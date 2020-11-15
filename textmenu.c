@@ -1,4 +1,14 @@
 #include <stdio.h>
+#include <ctype.h>
+
+char inputChar() {
+    char input = getchar();
+    while (input == '\n') {
+        input = getchar();
+    }
+    input = toupper(input);
+    return input;
+}
 
 void printIntroduction() {
     printf("** PCB's and Processing Scheduling Simulation **\n");
@@ -10,4 +20,8 @@ void printIntroduction() {
     printf("N - New Sempahore, P - Semapahore P, V - Sempahore V\n");
     printf("* Info Commands *\n");
     printf("I - Procinfo, T - Totalinfo\n");
+}
+
+void printInvalidCommand() {
+    printf("Invalid Command\n");
 }
