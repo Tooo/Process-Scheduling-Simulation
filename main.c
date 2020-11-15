@@ -1,6 +1,9 @@
+#include "textmenu.h"
+
 
 int main () {
-    char input;
+    printIntroduction();
+    char input = 'C';
     switch (input) {
         case 'C':
             break;  
@@ -29,6 +32,6 @@ int main () {
         case 'T':
             break;
         default:
-        }
+            break;
     }
 }
