@@ -27,5 +27,8 @@ void Process_exit();
 
 void Process_quantum();
 
+void Process_procinfo();
+
+void Process_totalinfo();
 
 #endif
