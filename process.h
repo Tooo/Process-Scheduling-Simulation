@@ -1,6 +1,8 @@
 #ifndef _PROCESS_H_
 #define _PROCESS_H_
 
+#include <stdbool.h>
+
 typedef struct PCB_s PCB;
 struct PCB_s {
     int PID;
@@ -15,7 +17,9 @@ enum STATE {
     PROCESS_BLOCKED
 };
 
-void Process_createQueues();
+int Process_setup();
+
+bool Process_isInitExited();
 
 void Process_create(int priority);
 

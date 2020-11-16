@@ -1,6 +1,6 @@
 #include "semaphore.h"
 
-static Semaphore semaphores[5];
+//static Semaphore semaphores[5];
 
 void Semaphore_new(int semaphore) {
 

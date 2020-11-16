@@ -1,8 +1,8 @@
 #include "message.h"
 #include "list.h"
 
-static List * sendQueue;
-static List * receiveQueue;
+//static List * sendQueue;
+//static List * receiveQueue;
 
 void Message_send(int pid, char * msg) {
     

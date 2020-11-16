@@ -1,6 +1,8 @@
 #include "textmenu.h"
+#include "process.h"
 
 int main () {
+    Process_setup();
     printIntroduction();
     while (1) {
         char input = inputChar();
