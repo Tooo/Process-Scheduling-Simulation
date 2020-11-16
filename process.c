@@ -92,6 +92,29 @@ void Process_create(int priority) {
 }
 
 void Process_fork() {
+    int result;
+    if (init.state == PROCESS_RUNNING) {
+        printForkReport(-1);
+        return;
+    }
+
+    PCB * process = malloc(sizeof(PCB));
+
+    if (process == NULL) {
+        printForkReport(-1);
+        return;
+    }
+
+    process->PID = processInt++;
+    process->priority = runningProcess->priority;
+    result = processToReadyQueue(process);
+
+    if (result != 0) {
+        free(process);
+        printForkReport(-1);
+    } else {
+        printForkReport(process->PID);
+    }
 
 }
 

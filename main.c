@@ -11,6 +11,7 @@ int main () {
                 Process_create(inputPriorityInt());
                 break;  
             case 'F':
+                Process_fork();
                 break;
             case 'K':
                 return 1;

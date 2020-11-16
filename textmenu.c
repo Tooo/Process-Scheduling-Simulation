@@ -46,3 +46,11 @@ void printCreateReport(int pid) {
         printf("SUCESS: Process %d created\n", pid);
     }
 }
+
+void printForkReport(int pid) {
+    if (pid == -1) {
+        printf("FAILED: Process could not be forked\n");
+    } else {
+        printf("SUCESS: Process %d forked\n", pid);
+    }
+}
