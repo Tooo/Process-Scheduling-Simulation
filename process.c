@@ -15,6 +15,7 @@ int Process_setup() {
     init.PID = processInt++;
     init.state = PROCESS_RUNNING;
     init.priority = 0;
+    runningProcess = &init;
 
     highQueue = List_create();
     if (highQueue == NULL) {
@@ -128,5 +129,18 @@ int Process_exit() {
 }
 
 int Process_quantum() {
-    return 0;
+    processToReadyQueue(runningProcess);
+
+    if (List_count(highQueue) != 0) {
+        runningProcess = List_trim(highQueue);
+    } else if (List_count(normQueue) != 0) {
+        runningProcess = List_trim(normQueue);
+    } else if (List_count(lowQueue) != 0) {
+        runningProcess = List_trim(lowQueue);
+    } else {
+        runningProcess = &init;
+    }
+
+    runningProcess->state = PROCESS_RUNNING;
+    return runningProcess->PID;
 }

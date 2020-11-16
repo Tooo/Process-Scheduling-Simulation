@@ -24,6 +24,8 @@ int main () {
             case 'E':
                 break;
             case 'Q':
+                pid = Process_quantum();
+                printQuantumReport(pid);
                 break;
             case 'S':
                 break;

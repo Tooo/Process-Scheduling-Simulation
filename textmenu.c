@@ -78,7 +78,11 @@ void printExitReport() {
 }
 
 void printQuantumReport(int pid) {
-
+    if (pid == 0) {
+        printf("Process init is running\n");
+    } else {
+        printf("Process %d is running\n", pid);
+    }
 }
 
 
