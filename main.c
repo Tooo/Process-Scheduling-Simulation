@@ -38,8 +38,11 @@ int main () {
             case 'V':
                 break;
             case 'I':
+                pid = inputPID();
+                procinfo(pid);
                 break;
             case 'T':
+                totalinfo();
                 break;
             default:
                 printInvalidCommand();

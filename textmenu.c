@@ -2,6 +2,9 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+#include "textmenu.h"
+#include "process.h"
+
 char inputChar() {
     char input = getchar();
     while (input == '\n') {
@@ -64,7 +67,7 @@ void printForkReport(int pid) {
 
 void printKillReport(int pid) {
     if (pid == -1) {
-        printf("FAILED: Process could not be killed\n")
+        printf("FAILED: Process could not be killed\n");
     } else {
         printf("SUCESS: Process %d killed\n", pid);
     }
@@ -78,10 +81,55 @@ void printQuantumReport(int pid) {
 
 }
 
-void procinfo(int pid) {
 
+void printNumToPriority(int priority) {
+    switch (priority) {
+        case 0:
+            printf("high");
+            break;
+        case 1:
+            printf("norm");
+            break;
+        case 2:
+            printf("low");
+            break;
+        default:
+            break;
+    }
+}
+
+void printNumToState(int state) {
+    switch (state) {
+        case PROCESS_RUNNING:
+            printf("Running");
+            break;
+        case PROCESS_READY:
+            printf("Ready");
+            break;
+        case PROCESS_BLOCKED:
+            printf("Blocked");
+            break;
+        default:
+            break;
+    }
+}
+
+void procinfo(int pid) {
+    PCB * process = Process_getProcess(pid);
+    printf("Procinfo: PID -  %d", pid);
+    printf(", Priority - ");
+    printNumToPriority(process->priority);
+    printf(", State - ");
+    printNumToState(process->state);
+    printf("\n");
 }
 
 void totalinfo() {
+    printf("* Totalinfo *\n");
+    printf("High Ready Queue: ");
+    printf("Norm Ready Queue: ");
+    printf("Low Ready Queue: ");
 
+    printf("Send Waiting Queue: ");
+    printf("Receieve Waiting Queue: ");
 }

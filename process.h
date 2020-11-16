@@ -21,6 +21,8 @@ int Process_setup();
 
 bool Process_isInitExited();
 
+PCB * Process_getProcess(int pid);
+
 int Process_create(int priority);
 
 int Process_fork();

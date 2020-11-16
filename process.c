@@ -42,6 +42,10 @@ bool Process_isInitExited() {
     }
 }
 
+PCB * Process_getProcess(int pid) {
+    return NULL;
+}
+
 int processToReadyQueue(PCB * process) {
     process->state = PROCESS_READY;
 
@@ -116,13 +120,13 @@ int Process_fork() {
 }
 
 int Process_kill(int pid) {
-
+    return 0;
 }
 
 int Process_exit() {
-
+    return 0;
 }
 
 int Process_quantum() {
-
+    return 0;
 }
