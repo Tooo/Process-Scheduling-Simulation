@@ -115,14 +115,14 @@ int Process_fork() {
     return process->PID;
 }
 
-void Process_kill(int pid) {
+int Process_kill(int pid) {
 
 }
 
-void Process_exit() {
+int Process_exit() {
 
 }
 
-void Process_quantum() {
+int Process_quantum() {
 
 }
