@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <ctype.h>
 
 char inputChar() {
@@ -24,4 +25,24 @@ void printIntroduction() {
 
 void printInvalidCommand() {
     printf("Invalid Command\n");
+}
+
+int inputPriorityInt() {
+    int input;
+    printf("Input Priority Int (0 - high, 1 - norm , 2 - low)\n");
+    scanf("%d", &input);
+
+    while (input < 0 || input > 2) {
+        printf("Invalid Int\n");
+        scanf("%d", &input);
+    }
+    return input;
+}
+
+void printCreateReport(int pid) {
+    if (pid == -1) {
+        printf("FAILED: Process could not be created\n");
+    } else {
+        printf("SUCESS: Process %d created\n", pid);
+    }
 }

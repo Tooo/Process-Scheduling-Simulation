@@ -4,10 +4,11 @@
 int main () {
     Process_setup();
     printIntroduction();
-    while (1) {
+    while (!Process_isInitExited()) {
         char input = inputChar();
         switch (input) {
             case 'C':
+                Process_create(inputPriorityInt());
                 break;  
             case 'F':
                 break;

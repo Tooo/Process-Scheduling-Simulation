@@ -2,12 +2,14 @@
 
 #include "process.h"
 #include "list.h"
+#include "textmenu.h"
 
 static List * highQueue;
 static List * normQueue;
 static List * lowQueue;
 
 static PCB init;
+static PCB * runningProcess;
 static int processInt = 0;
 
 int Process_setup() {
@@ -33,8 +35,60 @@ int Process_setup() {
     return 0;
 }
 
-void Process_create(int priority) {
+bool Process_isInitExited() {
+    if (init.state == PROCESS_BLOCKED) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
+int processToReadyQueue(PCB * process) {
+    process->state = PROCESS_READY;
+
+    switch (process->priority) {
+        case 0:
+            return List_prepend(highQueue, process);
+        case 1:
+            return List_prepend(normQueue, process);
+        case 2:
+            return List_prepend(lowQueue, process);
+        default:
+            return 2;
+    }
+
+}
+
+void fromInitRunProcess(PCB * process) {
+    init.state = PROCESS_READY;
+    process->state = PROCESS_RUNNING;
+    runningProcess = process;
+}
+
+void Process_create(int priority) {
+    int result;
+    PCB * process = malloc(sizeof(PCB));
+
+    if (process == NULL) {
+        printCreateReport(-1);
+        return;
+    }
+
+    process->PID = processInt++;
+    process->priority = priority;
+    
+    if (init.state == PROCESS_RUNNING) {
+        fromInitRunProcess(process);
+    } else {
+        result = processToReadyQueue(process);
+    }
+
+    if (result != 0) {
+        free(process);
+        printCreateReport(-1);
+    } else {
+        printCreateReport(process->PID);
+    }
 }
 
 void Process_fork() {
