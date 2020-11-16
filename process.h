@@ -21,18 +21,14 @@ int Process_setup();
 
 bool Process_isInitExited();
 
-void Process_create(int priority);
+int Process_create(int priority);
 
-void Process_fork();
+int Process_fork();
 
 void Process_kill(int pid);
 
 void Process_exit();
 
 void Process_quantum();
-
-void Process_procinfo();
-
-void Process_totalinfo();
 
 #endif

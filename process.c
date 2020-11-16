@@ -2,7 +2,6 @@
 
 #include "process.h"
 #include "list.h"
-#include "textmenu.h"
 
 static List * highQueue;
 static List * normQueue;
@@ -65,13 +64,12 @@ void fromInitRunProcess(PCB * process) {
     runningProcess = process;
 }
 
-void Process_create(int priority) {
+int Process_create(int priority) {
     int result;
     PCB * process = malloc(sizeof(PCB));
 
     if (process == NULL) {
-        printCreateReport(-1);
-        return;
+        return -1;
     }
 
     process->PID = processInt++;
@@ -85,24 +83,23 @@ void Process_create(int priority) {
 
     if (result != 0) {
         free(process);
-        printCreateReport(-1);
-    } else {
-        printCreateReport(process->PID);
-    }
+        processInt--;
+        return 1;
+    } 
+
+    return process->PID;
 }
 
-void Process_fork() {
+int Process_fork() {
     int result;
     if (init.state == PROCESS_RUNNING) {
-        printForkReport(-1);
-        return;
+        return -1;
     }
 
     PCB * process = malloc(sizeof(PCB));
 
     if (process == NULL) {
-        printForkReport(-1);
-        return;
+        return -1;
     }
 
     process->PID = processInt++;
@@ -111,11 +108,11 @@ void Process_fork() {
 
     if (result != 0) {
         free(process);
-        printForkReport(-1);
-    } else {
-        printForkReport(process->PID);
+        processInt--;
+        return -1;
     }
 
+    return process->PID;
 }
 
 void Process_kill(int pid) {
@@ -127,13 +124,5 @@ void Process_exit() {
 }
 
 void Process_quantum() {
-
-}
-
-void Process_procinfo() {
-
-}
-
-void Process_totalinfo() {
 
 }

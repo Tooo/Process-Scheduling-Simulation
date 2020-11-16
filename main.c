@@ -2,16 +2,22 @@
 #include "process.h"
 
 int main () {
+    int priority;
+    int pid;
+
     Process_setup();
     printIntroduction();
     while (!Process_isInitExited()) {
         char input = inputChar();
         switch (input) {
             case 'C':
-                Process_create(inputPriorityInt());
+                priority = inputPriorityInt();
+                pid = Process_create(priority);
+                printCreateReport(pid);
                 break;  
             case 'F':
-                Process_fork();
+                pid = Process_fork();
+                printForkReport(pid);
                 break;
             case 'K':
                 return 1;
