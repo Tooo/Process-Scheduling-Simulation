@@ -43,8 +43,10 @@ bool Process_isInitExited() {
     }
 }
 
-bool Process_comparePid(PCB * pcb, int * pid) {
-    if (pcb->PID == pid) {
+bool Process_comparePid(void * pcb, void * pid) {
+    PCB * process = pcb;
+    int * num = pid;
+    if (process->PID == * num) {
         return true;
     } else {
         return false;
@@ -53,20 +55,20 @@ bool Process_comparePid(PCB * pcb, int * pid) {
 
 PCB * Process_getProcess(int pid) {
     List_first(highQueue);
-    PCB * pcb = List_search(highQueue, Process_comparePid, &pid);
-    if (pcb != NULL) {
+    PCB * process = List_search(highQueue, Process_comparePid, &pid);
+    if (process != NULL) {
         return List_remove(highQueue);
     }
 
     List_first(normQueue);
-    PCB * pcb = List_search(normQueue, Process_comparePid, &pid);
-    if (pcb != NULL) {
+    process = List_search(normQueue, Process_comparePid, &pid);
+    if (process != NULL) {
         return List_remove(normQueue);
     }
 
     List_first(lowQueue);
-    PCB * pcb = List_search(lowQueue, Process_comparePid, &pid);
-    if (pcb != NULL) {
+    process = List_search(lowQueue, Process_comparePid, &pid);
+    if (process != NULL) {
         return List_remove(lowQueue);
     }
 
