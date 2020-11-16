@@ -91,7 +91,6 @@ void printQuantumReport(int pid) {
     }
 }
 
-
 void printNumToPriority(int priority) {
     switch (priority) {
         case 0:

@@ -14,6 +14,3 @@ void printQuantumReport(int pid);
 
 void procinfo(int pid);
 void totalinfo();
-
-
-
