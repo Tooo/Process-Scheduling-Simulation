@@ -20,8 +20,13 @@ int main () {
                 printForkReport(pid);
                 break;
             case 'K':
-                return 1;
+                pid = inputPID();
+                pid = Process_kill(pid);
+                printKillReport(pid);
+                break;
             case 'E':
+                pid = Process_exit();
+                printExitReport(pid);
                 break;
             case 'Q':
                 pid = Process_quantum();

@@ -73,8 +73,14 @@ void printKillReport(int pid) {
     }
 }
 
-void printExitReport() {
-
+void printExitReport(int pid) {
+    if (pid == -1) {
+        printf("FAILED: Process init could not be exited\n");
+    } else if (pid == 0) {
+        printf("SUCESS: Process init exited\n");
+    } else {
+        printf("SUCESS: Process %d is running\n", pid);
+    }
 }
 
 void printQuantumReport(int pid) {

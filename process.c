@@ -47,6 +47,12 @@ PCB * Process_getProcess(int pid) {
     return NULL;
 }
 
+void fromInitRunProcess(PCB * process) {
+    init.state = PROCESS_READY;
+    process->state = PROCESS_RUNNING;
+    runningProcess = process;
+}
+
 int processToReadyQueue(PCB * process) {
     process->state = PROCESS_READY;
 
@@ -63,10 +69,28 @@ int processToReadyQueue(PCB * process) {
 
 }
 
-void fromInitRunProcess(PCB * process) {
-    init.state = PROCESS_READY;
-    process->state = PROCESS_RUNNING;
-    runningProcess = process;
+void changeRunningProcess() {
+    if (List_count(highQueue) != 0) {
+        runningProcess = List_trim(highQueue);
+    } else if (List_count(normQueue) != 0) {
+        runningProcess = List_trim(normQueue);
+    } else if (List_count(lowQueue) != 0) {
+        runningProcess = List_trim(lowQueue);
+    } else {
+        runningProcess = &init;
+    }
+}
+
+bool isAllListsEmpty() {
+    if (List_count(highQueue) != 0) {
+        return false;
+    } else if (List_count(normQueue) != 0) {
+        return false;
+    } else if (List_count(lowQueue) != 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 int Process_create(int priority) {
@@ -125,21 +149,24 @@ int Process_kill(int pid) {
 }
 
 int Process_exit() {
-    return 0;
+    if (runningProcess->PID == 0) {
+        if (isAllListsEmpty()) {
+            runningProcess->state = PROCESS_BLOCKED;
+            return 0;
+        } else {
+            return -1;
+        }
+    } else {
+        free(runningProcess);
+        changeRunningProcess();
+        return runningProcess->PID;
+    }
 }
 
 int Process_quantum() {
     processToReadyQueue(runningProcess);
 
-    if (List_count(highQueue) != 0) {
-        runningProcess = List_trim(highQueue);
-    } else if (List_count(normQueue) != 0) {
-        runningProcess = List_trim(normQueue);
-    } else if (List_count(lowQueue) != 0) {
-        runningProcess = List_trim(lowQueue);
-    } else {
-        runningProcess = &init;
-    }
+    changeRunningProcess();
 
     runningProcess->state = PROCESS_RUNNING;
     return runningProcess->PID;
