@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <ctype.h>
 
@@ -172,12 +173,44 @@ void procinfo(int pid) {
     printf("\n");
 }
 
-void totalinfo() {
-    printf("* Totalinfo *\n");
-    printf("High Ready Queue: ");
-    printf("Norm Ready Queue: ");
-    printf("Low Ready Queue: ");
+void printArray(int * array) {
+    int count = array[0];
+    if (count == 0) {
+        printf("Empty \n");
+    } else {
+        printf("{");
+        for (int i = 0; i < count-1; i++) {
+            printf("%d, ", array[i+1]);
+        }
+        printf("%d}\n", array[count]);
+    }
+    free(array);
+}
 
-    printf("Send Waiting Queue: ");
-    printf("Receieve Waiting Queue: ");
+void totalinfo() {
+    int * array;
+    printf("* Totalinfo *\n");
+
+    PCB * process = Process_getCurrentProcess();
+    printf("Running: ");
+    if (process->PID == 0) {
+        printf("0 - init\n");
+    } else {
+        printf("%d\n", process->PID);
+    }
+
+    printf("High Ready Queue: ");
+    array = Process_getProcessQueueArray(0);
+    printArray(array);
+
+    printf("Norm Ready Queue: ");
+    array = Process_getProcessQueueArray(1);
+    printArray(array);
+
+    printf("Low Ready Queue: ");
+    array = Process_getProcessQueueArray(2);
+    printArray(array);
+
+    //printf("Send Waiting Queue: ");
+    //printf("Receieve Waiting Queue: ");
 }
