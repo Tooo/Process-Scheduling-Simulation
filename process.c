@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h> // TEST
 
 #include "process.h"
 #include "list.h"
@@ -43,6 +44,10 @@ bool Process_isInitExited() {
     }
 }
 
+PCB * Process_getCurrentProcess() {
+    return runningProcess;
+}
+
 List * getProcessQueue(int priority) {
     switch (priority) {
         case PRIORITY_HIGH:
@@ -66,7 +71,7 @@ bool Process_comparePid(void * pcb, void * pid) {
     }
 }
 
-PCB * searchProcess(int pid, List * queue) {
+PCB * searchProcess(int pid, List ** queue) {
     if (init.PID == pid) {
         queue = NULL;
         return &init;
@@ -79,10 +84,10 @@ PCB * searchProcess(int pid, List * queue) {
 
     PCB * process;
 
-    for (int i = 0; i < 3; i ++) {
-        queue = getProcessQueue(i);
-        List_first(queue);
-        process = List_search(queue, Process_comparePid, &pid);
+    for (int i = 0; i < 3; i++) {
+        * queue = getProcessQueue(i);
+        List_first(*queue);
+        process = List_search(*queue, Process_comparePid, &pid);
         if (process != NULL) {
             return process;
         }
@@ -94,12 +99,12 @@ PCB * searchProcess(int pid, List * queue) {
 
 PCB * Process_getProcess(int pid) {
     List * queue = NULL;
-    return searchProcess(pid, queue);
+    return searchProcess(pid, &queue);
 }
 
 PCB * Process_removeProcess(int pid) {
-    List * queue = NULL;
-    PCB * process = searchProcess(pid, queue);
+    List * queue = highQueue;
+    PCB * process = searchProcess(pid, &queue);
 
     if (process == NULL) {
         return NULL;
@@ -110,10 +115,6 @@ PCB * Process_removeProcess(int pid) {
     }
 
     return List_remove(queue);
-}
-
-PCB * Process_getCurrentProcess() {
-    return runningProcess;
 }
 
 int * Process_getProcessQueueArray(int priority) {
@@ -244,6 +245,7 @@ int Process_kill(int pid) {
         if (process == NULL) {
             return -1;
         }
+        free(process);
     }
     
     return pid;
