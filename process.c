@@ -117,19 +117,49 @@ PCB * Process_getCurrentProcess() {
     return runningProcess;
 }
 
+List * getProcessQueue(int priority) {
+    switch (priority) {
+        case PRIORITY_HIGH:
+            return highQueue;
+        case PRIORITY_NORM:
+            return normQueue;
+        case PRIORITY_LOW:
+            return lowQueue;
+        default:
+            return NULL;
+    }
+}
+
+int * Process_getProcessQueueArray(int priority) {
+    PCB * process;
+    List * queue = getProcessQueue(priority);
+    int count = List_count(queue);
+    int * array = malloc(sizeof(int)*(count+1));
+
+    if (array == NULL) {
+        return NULL;
+    }
+
+    array[0] = count;
+    List_first(queue);
+    
+    for (int i = 0; i < count; i++) {
+        process = List_curr(queue);
+        array[i+1] = process->PID;
+        List_next(queue);
+    }
+
+    return array;
+}
+
 int processToReadyQueue(PCB * process) {
     process->state = PROCESS_READY;
+    List * queue = getProcessQueue(process->priority);
 
-    switch (process->priority) {
-        case PRIORITY_HIGH:
-            return List_prepend(highQueue, process);
-        case PRIORITY_NORM:
-            return List_prepend(normQueue, process);
-        case PRIORITY_LOW:
-            return List_prepend(lowQueue, process);
-        default:
-            return 2;
+    if (queue == NULL) {
+        return 1;
     }
+    return List_prepend(queue, process);
 }
 
 void Process_changeRunningProcess() {

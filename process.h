@@ -30,6 +30,7 @@ bool Process_comparePid(void * pcb, void * pid);
 PCB * Process_getProcess(int pid);
 PCB * Process_removeProcess(int pid);
 PCB * Process_getCurrentProcess();
+int * Process_getProcessQueueArray(int priority);
 
 void Process_changeRunningProcess();
 
