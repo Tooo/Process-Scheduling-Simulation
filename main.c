@@ -1,10 +1,18 @@
 #include "textmenu.h"
 #include "process.h"
+#include "message.h"
 
 int main () {
     int priority;
     int pid;
+    //char * message;
+
     if (Process_setup() != 0) {
+        printInvalidSetup();
+        return 1;
+    }
+
+    if (Message_setup() != 0) {
         printInvalidSetup();
         return 1;
     }

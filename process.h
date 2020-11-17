@@ -30,7 +30,6 @@ PCB * Process_getProcess(int pid);
 PCB * Process_removeProcess(int pid);
 int Process_getCurrentProcessId();
 
-
 int Process_create(int priority);
 int Process_fork();
 int Process_kill(int pid);
