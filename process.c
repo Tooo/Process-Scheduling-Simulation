@@ -43,80 +43,6 @@ bool Process_isInitExited() {
     }
 }
 
-bool Process_comparePid(void * pcb, void * pid) {
-    PCB * process = pcb;
-    int * num = pid;
-    if (process->PID == * num) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-PCB * Process_getProcess(int pid) {
-    if (init.PID == pid) {
-        return &init;
-    }
-
-    if (runningProcess->PID == pid) {
-        return runningProcess;
-    }
-
-    List_first(highQueue);
-    PCB * process = List_search(highQueue, Process_comparePid, &pid);
-    if (process != NULL) {
-        return process;
-    }
-
-    List_first(normQueue);
-    process = List_search(normQueue, Process_comparePid, &pid);
-    if (process != NULL) {
-        return process;
-    }
-
-    List_first(lowQueue);
-    process = List_search(lowQueue, Process_comparePid, &pid);
-    if (process != NULL) {
-        return process;
-    }
-
-    return NULL;
-}
-
-PCB * Process_removeProcess(int pid) {
-    if (init.PID == pid) {
-        return &init;
-    }
-
-    if (runningProcess->PID == pid) {
-        return runningProcess;
-    }
-
-    List_first(highQueue);
-    PCB * process = List_search(highQueue, Process_comparePid, &pid);
-    if (process != NULL) {
-        return List_remove(highQueue);
-    }
-
-    List_first(normQueue);
-    process = List_search(normQueue, Process_comparePid, &pid);
-    if (process != NULL) {
-        return List_remove(highQueue);
-    }
-
-    List_first(lowQueue);
-    process = List_search(lowQueue, Process_comparePid, &pid);
-    if (process != NULL) {
-        return List_remove(highQueue);
-    }
-
-    return NULL;
-}
-
-PCB * Process_getCurrentProcess() {
-    return runningProcess;
-}
-
 List * getProcessQueue(int priority) {
     switch (priority) {
         case PRIORITY_HIGH:
@@ -128,6 +54,66 @@ List * getProcessQueue(int priority) {
         default:
             return NULL;
     }
+}
+
+bool Process_comparePid(void * pcb, void * pid) {
+    PCB * process = pcb;
+    int * num = pid;
+    if (process->PID == * num) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+PCB * searchProcess(int pid, List * queue) {
+    if (init.PID == pid) {
+        queue = NULL;
+        return &init;
+    }
+
+    if (runningProcess->PID == pid) {
+        queue = NULL;
+        return runningProcess;
+    }
+
+    PCB * process;
+
+    for (int i = 0; i < 3; i ++) {
+        queue = getProcessQueue(i);
+        List_first(queue);
+        process = List_search(queue, Process_comparePid, &pid);
+        if (process != NULL) {
+            return process;
+        }
+    }
+
+    queue = NULL;
+    return NULL;
+}
+
+PCB * Process_getProcess(int pid) {
+    List * queue = NULL;
+    return searchProcess(pid, queue);
+}
+
+PCB * Process_removeProcess(int pid) {
+    List * queue = NULL;
+    PCB * process = searchProcess(pid, queue);
+
+    if (process == NULL) {
+        return NULL;
+    }
+
+    if (queue == NULL) {
+        return process;
+    }
+
+    return List_remove(queue);
+}
+
+PCB * Process_getCurrentProcess() {
+    return runningProcess;
 }
 
 int * Process_getProcessQueueArray(int priority) {
