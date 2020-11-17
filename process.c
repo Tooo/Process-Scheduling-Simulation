@@ -142,7 +142,7 @@ int * Process_getProcessQueueArray(int priority) {
 
     array[0] = count;
     List_first(queue);
-    
+
     for (int i = 0; i < count; i++) {
         process = List_curr(queue);
         array[i+1] = process->PID;
@@ -206,7 +206,7 @@ int Process_create(int priority) {
         if (result != 0) {
             free(process);
             processInt--;
-            changeRunningProcess();
+            Process_changeRunningProcess();
             return -1;
         } 
     }
@@ -251,7 +251,7 @@ int Process_kill(int pid) {
 
     if (pid == runningProcess->PID) {
         free(runningProcess);
-        changeRunningProcess();
+        Process_changeRunningProcess();
     } else {
         PCB * process = Process_removeProcess(pid);
 
@@ -274,12 +274,12 @@ int Process_exit() {
     } 
 
     free(runningProcess);
-    changeRunningProcess();
+    Process_changeRunningProcess();
     return runningProcess->PID;
 }
 
 int Process_quantum() {
     processToReadyQueue(runningProcess);
-    changeRunningProcess();
+    Process_changeRunningProcess();
     return runningProcess->PID;
 }

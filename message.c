@@ -22,7 +22,7 @@ int Message_setup() {
 }
 
 int Message_send(int pid, char * msg) {
-    
+    return 0;
 }
 
 int Message_receieve() {
@@ -39,5 +39,5 @@ int Message_receieve() {
 }
 
 int Message_reply(int pid, char * msg) {
-
+    return 0;
 }
