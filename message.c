@@ -21,6 +21,17 @@ int Message_setup() {
     return 0;
 }
 
+List * Message_getQueue(int num) {
+    switch (num) {
+        case QUEUE_SEND:
+            return sendQueue;
+        case QUEUE_RECEIVE:
+            return receiveQueue;
+        default:
+            return NULL;
+    }
+}
+
 int Message_send(int pid, char * msg) {
     return 0;
 }

@@ -200,15 +200,15 @@ void totalinfo() {
     }
 
     printf("High Ready Queue: ");
-    array = Process_getProcessQueueArray(0);
+    array = Process_getQueueArray(0);
     printArray(array);
 
     printf("Norm Ready Queue: ");
-    array = Process_getProcessQueueArray(1);
+    array = Process_getQueueArray(1);
     printArray(array);
 
     printf("Low Ready Queue: ");
-    array = Process_getProcessQueueArray(2);
+    array = Process_getQueueArray(2);
     printArray(array);
 
     //printf("Send Waiting Queue: ");

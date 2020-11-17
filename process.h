@@ -2,6 +2,7 @@
 #define _PROCESS_H_
 
 #include <stdbool.h>
+#include "list.h"
 
 typedef struct PCB_s PCB;
 struct PCB_s {
@@ -31,7 +32,8 @@ bool Process_comparePid(void * pcb, void * pid);
 PCB * Process_getProcess(int pid);
 PCB * Process_removeProcess(int pid);
 
-int * Process_getProcessQueueArray(int priority);
+int * Process_QueueToArray(List * queue);
+int * Process_getQueueArray(int priority);
 
 void Process_changeRunningProcess();
 

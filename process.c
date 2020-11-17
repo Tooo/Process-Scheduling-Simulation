@@ -117,12 +117,14 @@ PCB * Process_removeProcess(int pid) {
     return List_remove(queue);
 }
 
-int * Process_getProcessQueueArray(int priority) {
+int * Process_QueueToArray(List * queue) {
     PCB * process;
-    List * queue = getProcessQueue(priority);
     int count = List_count(queue);
-    int * array = malloc(sizeof(int)*(count+1));
+    if (queue == NULL) {
+        return NULL;
+    }
 
+    int * array = malloc(sizeof(int)*(count+1));
     if (array == NULL) {
         return NULL;
     }
@@ -135,8 +137,12 @@ int * Process_getProcessQueueArray(int priority) {
         array[i+1] = process->PID;
         List_prev(queue);
     }
-
     return array;
+}
+
+int * Process_getQueueArray(int priority) {
+    List * queue = getProcessQueue(priority);
+    return Process_QueueToArray(queue);
 }
 
 int processToReadyQueue(PCB * process) {
