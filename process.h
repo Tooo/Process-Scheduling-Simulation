@@ -17,6 +17,12 @@ enum STATE {
     PROCESS_BLOCKED
 };
 
+enum PRIORITY {
+    PRIORITY_HIGH,
+    PRIORITY_NORM,
+    PRIORITY_LOW
+};
+
 int Process_setup();
 bool Process_isInitExited();
 bool Process_comparePid(void * pcb, void * pid);

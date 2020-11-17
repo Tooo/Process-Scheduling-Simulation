@@ -45,6 +45,10 @@ void printIntroduction() {
     printf("I - Procinfo, T - Totalinfo\n");
 }
 
+void printInvalidSetup() {
+    printf("ERROR: Lists can't not be intialized");
+}
+
 void printInvalidCommand() {
     printf("Invalid Command\n");
 }
@@ -74,12 +78,18 @@ void printKillReport(int pid) {
 }
 
 void printExitReport(int pid) {
-    if (pid == -1) {
-        printf("FAILED: Process init could not be exited\n");
-    } else if (pid == 0) {
-        printf("SUCESS: Process init exited\n");
-    } else {
-        printf("SUCESS: Process %d is running\n", pid);
+    switch (pid) {
+        case -2:
+            printf("FAILED: Process init could not be exited\n");
+            break;
+        case -1:
+            printf("SUCESS: Process init is exited\n");
+            break;
+        case 0:
+            printf("SUCESS: Process init is running\n");
+            break;
+        default:
+            printf("SUCESS: Process %d is running\n", pid);
     }
 }
 
@@ -125,6 +135,12 @@ void printNumToState(int state) {
 
 void procinfo(int pid) {
     PCB * process = Process_getProcess(pid);
+
+    if (process == NULL) {
+        printf("Proc info: Process %d not found\n", pid);
+        return;
+    }
+
     printf("Procinfo: PID - %d", pid);
     if (pid == 0) {
         printf(" (init)");

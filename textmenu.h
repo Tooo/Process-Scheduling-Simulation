@@ -4,6 +4,7 @@ int inputPriorityInt();
 int inputPID();
 
 void printIntroduction();
+void printInvalidSetup();
 void printInvalidCommand();
 
 void printCreateReport(int pid);

@@ -54,7 +54,6 @@ bool Process_comparePid(void * pcb, void * pid) {
 }
 
 PCB * Process_getProcess(int pid) {
-
     if (init.PID == pid) {
         return &init;
     }
@@ -88,26 +87,19 @@ int Process_getCurrentProcessId() {
     return runningProcess->PID;
 }
 
-void fromInitRunProcess(PCB * process) {
-    init.state = PROCESS_READY;
-    process->state = PROCESS_RUNNING;
-    runningProcess = process;
-}
-
 int processToReadyQueue(PCB * process) {
     process->state = PROCESS_READY;
 
     switch (process->priority) {
-        case 0:
+        case PRIORITY_HIGH:
             return List_prepend(highQueue, process);
-        case 1:
+        case PRIORITY_NORM:
             return List_prepend(normQueue, process);
-        case 2:
+        case PRIORITY_LOW:
             return List_prepend(lowQueue, process);
         default:
             return 2;
     }
-
 }
 
 void changeRunningProcess() {
@@ -120,6 +112,7 @@ void changeRunningProcess() {
     } else {
         runningProcess = &init;
     }
+    runningProcess->state = PROCESS_RUNNING;
 }
 
 bool isAllListsEmpty() {
@@ -135,7 +128,6 @@ bool isAllListsEmpty() {
 }
 
 int Process_create(int priority) {
-    int result;
     PCB * process = malloc(sizeof(PCB));
 
     if (process == NULL) {
@@ -146,16 +138,18 @@ int Process_create(int priority) {
     process->priority = priority;
     
     if (init.state == PROCESS_RUNNING) {
-        fromInitRunProcess(process);
+        init.state = PROCESS_READY;
+        process->state = PROCESS_RUNNING;
+        runningProcess = process;
     } else {
-        result = processToReadyQueue(process);
+        int result = processToReadyQueue(process);
+        if (result != 0) {
+            free(process);
+            processInt--;
+            changeRunningProcess();
+            return -1;
+        } 
     }
-
-    if (result != 0) {
-        free(process);
-        processInt--;
-        return 1;
-    } 
 
     return process->PID;
 }
@@ -192,10 +186,11 @@ int Process_kill(int pid) {
 int Process_exit() {
     if (runningProcess->PID == 0) {
         if (isAllListsEmpty()) {
-            runningProcess->state = PROCESS_BLOCKED;
-            return 0;
-        } else {
+            init.state = PROCESS_BLOCKED;
+            free(runningProcess);
             return -1;
+        } else {
+            return -2;
         }
     } else {
         free(runningProcess);
@@ -206,9 +201,6 @@ int Process_exit() {
 
 int Process_quantum() {
     processToReadyQueue(runningProcess);
-
     changeRunningProcess();
-
-    runningProcess->state = PROCESS_RUNNING;
     return runningProcess->PID;
 }

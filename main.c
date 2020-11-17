@@ -4,8 +4,11 @@
 int main () {
     int priority;
     int pid;
+    if (Process_setup() != 0) {
+        printInvalidSetup();
+        return 1;
+    }
 
-    Process_setup();
     printIntroduction();
     while (!Process_isInitExited()) {
         char input = inputChar();
