@@ -19,7 +19,10 @@ enum STATE {
 
 int Process_setup();
 bool Process_isInitExited();
+bool Process_comparePid(void * pcb, void * pid);
 PCB * Process_getProcess(int pid);
+int Process_getCurrentProcessId();
+
 
 int Process_create(int priority);
 int Process_fork();

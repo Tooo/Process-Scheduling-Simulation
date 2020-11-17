@@ -54,6 +54,15 @@ bool Process_comparePid(void * pcb, void * pid) {
 }
 
 PCB * Process_getProcess(int pid) {
+
+    if (init.PID == pid) {
+        return &init;
+    }
+
+    if (runningProcess->PID == pid) {
+        return runningProcess;
+    }
+
     List_first(highQueue);
     PCB * process = List_search(highQueue, Process_comparePid, &pid);
     if (process != NULL) {
@@ -73,6 +82,10 @@ PCB * Process_getProcess(int pid) {
     }
 
     return NULL;
+}
+
+int Process_getCurrentProcessId() {
+    return runningProcess->PID;
 }
 
 void fromInitRunProcess(PCB * process) {

@@ -28,7 +28,7 @@ int inputPriorityInt() {
 
 int inputPID() {
     int input;
-    printf("Input pid to Kill\n");
+    printf("Input Process ID\n");
     scanf("%d", &input);
     return input;
 }
@@ -94,13 +94,13 @@ void printQuantumReport(int pid) {
 void printNumToPriority(int priority) {
     switch (priority) {
         case 0:
-            printf("high");
+            printf("High");
             break;
         case 1:
-            printf("norm");
+            printf("Norm");
             break;
         case 2:
-            printf("low");
+            printf("Low");
             break;
         default:
             break;
@@ -125,7 +125,10 @@ void printNumToState(int state) {
 
 void procinfo(int pid) {
     PCB * process = Process_getProcess(pid);
-    printf("Procinfo: PID -  %d", pid);
+    printf("Procinfo: PID - %d", pid);
+    if (pid == 0) {
+        printf(" (init)");
+    }
     printf(", Priority - ");
     printNumToPriority(process->priority);
     printf(", State - ");
