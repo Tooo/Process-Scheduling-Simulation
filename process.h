@@ -28,7 +28,7 @@ bool Process_isInitExited();
 bool Process_comparePid(void * pcb, void * pid);
 PCB * Process_getProcess(int pid);
 PCB * Process_removeProcess(int pid);
-int Process_getCurrentProcessId();
+PCB * Process_getCurrentProcess();
 
 int Process_create(int priority);
 int Process_fork();

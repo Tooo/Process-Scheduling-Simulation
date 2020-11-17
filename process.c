@@ -113,8 +113,8 @@ PCB * Process_removeProcess(int pid) {
     return NULL;
 }
 
-int Process_getCurrentProcessId() {
-    return runningProcess->PID;
+PCB * Process_getCurrentProcess() {
+    return runningProcess;
 }
 
 int processToReadyQueue(PCB * process) {
