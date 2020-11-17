@@ -65,19 +65,19 @@ PCB * Process_getProcess(int pid) {
     List_first(highQueue);
     PCB * process = List_search(highQueue, Process_comparePid, &pid);
     if (process != NULL) {
-        return List_remove(highQueue);
+        return process;
     }
 
     List_first(normQueue);
     process = List_search(normQueue, Process_comparePid, &pid);
     if (process != NULL) {
-        return List_remove(normQueue);
+        return process;
     }
 
     List_first(lowQueue);
     process = List_search(lowQueue, Process_comparePid, &pid);
     if (process != NULL) {
-        return List_remove(lowQueue);
+        return process;
     }
 
     return NULL;
@@ -187,7 +187,6 @@ int Process_exit() {
     if (runningProcess->PID == 0) {
         if (isAllListsEmpty()) {
             init.state = PROCESS_BLOCKED;
-            free(runningProcess);
             return -1;
         } else {
             return -2;
