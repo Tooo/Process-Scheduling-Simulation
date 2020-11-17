@@ -5,6 +5,7 @@
 
 #include "textmenu.h"
 #include "process.h"
+#include "message.h"
 
 char inputChar() {
     char input = getchar();
@@ -200,17 +201,22 @@ void totalinfo() {
     }
 
     printf("High Ready Queue: ");
-    array = Process_getQueueArray(0);
+    array = Process_getQueueArray(PRIORITY_HIGH);
     printArray(array);
 
     printf("Norm Ready Queue: ");
-    array = Process_getQueueArray(1);
+    array = Process_getQueueArray(PRIORITY_NORM);
     printArray(array);
 
     printf("Low Ready Queue: ");
-    array = Process_getQueueArray(2);
+    array = Process_getQueueArray(PRIORITY_LOW);
     printArray(array);
 
-    //printf("Send Waiting Queue: ");
-    //printf("Receieve Waiting Queue: ");
+    printf("Send Waiting Queue: ");
+    array = Message_getQueueArray(QUEUE_SEND);
+    printArray(array);
+
+    printf("Receive Waiting Queue: ");
+    array = Message_getQueueArray(QUEUE_RECEIVE);
+    printArray(array);
 }

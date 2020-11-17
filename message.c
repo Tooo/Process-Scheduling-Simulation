@@ -32,6 +32,11 @@ List * Message_getQueue(int num) {
     }
 }
 
+int * Message_getQueueArray(int num) {
+    List * queue = Message_getQueue(num);
+    return Process_QueueToArray(queue);
+}
+
 int Message_send(int pid, char * msg) {
     return 0;
 }
