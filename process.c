@@ -83,6 +83,36 @@ PCB * Process_getProcess(int pid) {
     return NULL;
 }
 
+PCB * Process_removeProcess(int pid) {
+    if (init.PID == pid) {
+        return &init;
+    }
+
+    if (runningProcess->PID == pid) {
+        return runningProcess;
+    }
+
+    List_first(highQueue);
+    PCB * process = List_search(highQueue, Process_comparePid, &pid);
+    if (process != NULL) {
+        return List_remove(highQueue);
+    }
+
+    List_first(normQueue);
+    process = List_search(normQueue, Process_comparePid, &pid);
+    if (process != NULL) {
+        return List_remove(highQueue);
+    }
+
+    List_first(lowQueue);
+    process = List_search(lowQueue, Process_comparePid, &pid);
+    if (process != NULL) {
+        return List_remove(highQueue);
+    }
+
+    return NULL;
+}
+
 int Process_getCurrentProcessId() {
     return runningProcess->PID;
 }
@@ -180,7 +210,27 @@ int Process_fork() {
 }
 
 int Process_kill(int pid) {
-    return 0;
+    if (pid == 0) {
+        if (isAllListsEmpty() && init.state != PROCESS_READY) {
+            init.state = PROCESS_BLOCKED;
+            return pid;
+        } else {
+            return -2;
+        }
+    }
+
+    if (pid == runningProcess->PID) {
+        free(runningProcess);
+        changeRunningProcess();
+    } else {
+        PCB * process = Process_removeProcess(pid);
+
+        if (process == NULL) {
+            return -1;
+        }
+    }
+    
+    return pid;
 }
 
 int Process_exit() {
@@ -191,11 +241,11 @@ int Process_exit() {
         } else {
             return -2;
         }
-    } else {
-        free(runningProcess);
-        changeRunningProcess();
-        return runningProcess->PID;
-    }
+    } 
+
+    free(runningProcess);
+    changeRunningProcess();
+    return runningProcess->PID;
 }
 
 int Process_quantum() {

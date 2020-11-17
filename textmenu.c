@@ -70,10 +70,18 @@ void printForkReport(int pid) {
 }
 
 void printKillReport(int pid) {
-    if (pid == -1) {
-        printf("FAILED: Process could not be killed\n");
-    } else {
-        printf("SUCESS: Process %d killed\n", pid);
+    switch (pid) {
+        case -2:
+            printf("FAILED: Process init could not be killed\n");
+            break;
+        case -1:
+            printf("FAILED: Process could not be found\n");
+            break;
+        case 0:
+            printf("SUCESS: Process init is killed\n");
+            break;
+        default:
+            printf("SUCESS: Process %d is killed\n", pid);
     }
 }
 
