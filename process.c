@@ -128,12 +128,12 @@ int * Process_getProcessQueueArray(int priority) {
     }
 
     array[0] = count;
-    List_first(queue);
+    List_last(queue);
 
     for (int i = 0; i < count; i++) {
         process = List_curr(queue);
         array[i+1] = process->PID;
-        List_next(queue);
+        List_prev(queue);
     }
 
     return array;
