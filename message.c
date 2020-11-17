@@ -21,14 +21,23 @@ int Message_setup() {
     return 0;
 }
 
-void Message_send(int pid, char * msg) {
+int Message_send(int pid, char * msg) {
     
 }
 
-void Message_receieve() {
-    
+int Message_receieve() {
+    PCB * process = Process_getCurrentProcess();
+
+    if (process->message == NULL) {
+        if (process->PID != 0) {
+            process->state = PROCESS_BLOCKED;
+        }
+        List_add(receiveQueue, process);
+        Process_changeRunningProcess();
+    } 
+    return process->PID;
 }
 
-void Message_reply(int pid, char * msg) {
+int Message_reply(int pid, char * msg) {
 
 }

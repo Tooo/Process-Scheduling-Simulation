@@ -3,8 +3,8 @@
 
 int Message_setup();
 
-void Message_send(int pid, char * msg);
-void Message_receieve();
-void Message_reply(int pid, char * msg);
+int Message_send(int pid, char * msg);
+int Message_receieve();
+int Message_reply(int pid, char * msg);
 
 #endif

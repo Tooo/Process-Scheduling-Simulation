@@ -25,10 +25,13 @@ enum PRIORITY {
 
 int Process_setup();
 bool Process_isInitExited();
+
 bool Process_comparePid(void * pcb, void * pid);
 PCB * Process_getProcess(int pid);
 PCB * Process_removeProcess(int pid);
 PCB * Process_getCurrentProcess();
+
+void Process_changeRunningProcess();
 
 int Process_create(int priority);
 int Process_fork();

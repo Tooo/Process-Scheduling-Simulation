@@ -132,7 +132,7 @@ int processToReadyQueue(PCB * process) {
     }
 }
 
-void changeRunningProcess() {
+void Process_changeRunningProcess() {
     if (List_count(highQueue) != 0) {
         runningProcess = List_trim(highQueue);
     } else if (List_count(normQueue) != 0) {
