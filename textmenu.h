@@ -11,6 +11,7 @@ Message * inputMessage();
 void printIntroduction();
 void printInvalidSetup();
 void printInvalidCommand();
+void printProcessChange();
 
 void printCreateReport(int pid);
 void printForkReport(int pid);

@@ -7,6 +7,8 @@
 #include "process.h"
 #include "message.h"
 
+static int currentProcessId = 0;
+
 char inputChar() {
     char input = getchar();
     while (input == '\n') {
@@ -72,6 +74,18 @@ void printInvalidCommand() {
     printf("Invalid Command\n");
 }
 
+void printProcessChange() {
+    PCB * process = Process_getCurrentProcess();
+    if (process == NULL) {
+        return;
+    }
+    int pid = process->PID;
+    if (currentProcessId != pid ) {
+        printf("Process %d is running\n", pid);
+        currentProcessId = pid;
+    }
+}
+
 void printCreateReport(int pid) {
     if (pid == -1) {
         printf("FAILED: Process could not be created\n");
@@ -116,11 +130,12 @@ void printExitReport(int pid) {
             printf("SUCESS: Process init is running\n");
             break;
         default:
-            printf("SUCESS: Process %d is running\n", pid);
+            printf("SUCESS: Process %d exited\n", pid);
     }
 }
 
 void printQuantumReport(int pid) {
+    currentProcessId = pid;
     if (pid == 0) {
         printf("Process init is running\n");
     } else {
@@ -136,7 +151,7 @@ void printSendReport(int pid, Message * message) {
         return;
     }
 
-    printf("SUCESS: Process &d sent to Send Queue\n");
+    printf("SUCESS: Process %d sent to Send Queue\n", pid);
 
     if (message != NULL) {
         printf("(%d -> %d): %s\n", message->sender, message->receiver, message->msg);
@@ -215,7 +230,7 @@ void procinfo(int pid) {
     printNumToPriority(process->priority);
     printf(", State - ");
     printNumToState(process->state);
-    printf(" Messages Waiting - %d", process->messages->count);
+    printf(", Messages Waiting - %d", process->messages->count);
     printf("\n");
 }
 

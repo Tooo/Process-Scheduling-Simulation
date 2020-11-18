@@ -76,6 +76,7 @@ int main () {
                 printInvalidCommand();
                 break;
         }
+        printProcessChange();
     }
     
 }

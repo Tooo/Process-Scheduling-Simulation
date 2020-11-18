@@ -17,6 +17,11 @@ int Process_setup() {
     init.PID = processInt++;
     init.state = PROCESS_RUNNING;
     init.priority = 0;
+    init.messages = List_create();
+    if (init.messages == NULL) {
+        return 1;
+    }
+
     runningProcess = &init;
 
     highQueue = List_create();
@@ -276,10 +281,10 @@ int Process_exit() {
             return -2;
         }
     } 
-
+    int pid = runningProcess->PID;
     free(runningProcess);
     Process_changeRunningProcess();
-    return runningProcess->PID;
+    return pid;
 }
 
 int Process_quantum() {
