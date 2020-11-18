@@ -84,6 +84,12 @@ void printProcessChange() {
         printf("Process %d is running\n", pid);
         currentProcessId = pid;
     }
+
+    if (process->isMessageReceived) {
+        Message * message = Message_getMessage(process);
+        printf("SUCESS: (%d -> %d): %s\n", message->sender, message->receiver, message->msg);
+        process->isMessageReceived = false;
+    }
 }
 
 void printCreateReport(int pid) {
@@ -152,10 +158,6 @@ void printSendReport(int pid, Message * message) {
     }
 
     printf("SUCESS: Process %d sent to Send Queue\n", pid);
-
-    if (message != NULL) {
-        printf("(%d -> %d): %s\n", message->sender, message->receiver, message->msg);
-    }
 }
 
 void printReceiveReport(int pid, Message * message) {

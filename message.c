@@ -43,6 +43,16 @@ int * Message_getQueueArray(int num) {
     return Process_QueueToArray(queue);
 }
 
+int prependMessage(PCB * process, Message * message) {
+    List * messages = process->messages;
+    return List_prepend(messages, message);
+}
+
+Message * Message_getMessage(PCB * process) {
+    List * messages = process->messages;
+    return List_trim(messages);
+}
+
 PCB * removeProcess(int num, int pid) {
     List * queue = Message_getQueue(num);
     List_first(queue);
@@ -66,8 +76,8 @@ int Message_send(int pid, Message * message) {
         if (process == NULL) {
             return -1;
         }
-        List * messages = process->messages;
-        List_prepend(messages, message);
+        process->isMessageReceived = true;
+        prependMessage(process, message);
     }
 
     if (process->PID != 0) {
@@ -88,7 +98,7 @@ int Message_receieve(Message * message) {
         List_prepend(receiveQueue, process);
         Process_changeRunningProcess();
     } else {
-        message = List_trim(messages);
+        message = Message_getMessage(process);
     }
     return process->PID;
 }
@@ -100,7 +110,7 @@ int Message_reply(int pid, Message * message) {
     }
     message->sender = Process_getCurrentProcess()->PID;
     message->receiver = pid;
-    List * messages = process->messages;
-    List_prepend(messages, message);
+    prependMessage(process, message);
+    process->isMessageReceived = true;
     return pid;
 }
