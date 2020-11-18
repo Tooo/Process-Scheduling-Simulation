@@ -53,7 +53,7 @@ PCB * removeProcess(int num, int pid) {
     return List_remove(queue);
 }
 
-int Message_send(int pid, char * msg) {
+int Message_send(int pid, Message * message) {
     PCB * process = removeProcess(QUEUE_RECEIVE, pid);
     if (process == NULL) {
         process = Process_getProcess(pid);
@@ -61,7 +61,7 @@ int Message_send(int pid, char * msg) {
             return -1;
         }
         List * messages = process->messages;
-        List_prepend(messages, msg);
+        List_prepend(messages, message);
     }
 
     if (process->PID != 0) {
@@ -72,24 +72,26 @@ int Message_send(int pid, char * msg) {
     return 0;
 }
 
-int Message_receieve() {
+int Message_receieve(Message * message) {
     PCB * process = Process_getCurrentProcess();
     List * messages = process->messages;
     if (List_count(messages) == 0) {
         if (process->PID != 0) {
             process->state = PROCESS_BLOCKED;
         }
-        List_add(receiveQueue, process);
+        List_prepend(receiveQueue, process);
         Process_changeRunningProcess();
     } 
     return process->PID;
 }
 
-int Message_reply(int pid, char * msg) {
+int Message_reply(int pid, Message * message) {
     PCB * process = removeProcess(QUEUE_SEND, pid);
     if (process == NULL) {
-        return NULL;
+        return 0;
     }
 
-    //process->messages = msg;
+    List * messages = process->messages;
+    List_prepend(messages, message);
+    return pid;
 }

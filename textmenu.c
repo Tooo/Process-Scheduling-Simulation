@@ -35,6 +35,13 @@ int inputPID() {
     return input;
 }
 
+Message * inputMessage() {
+    Message * message = malloc(sizeof(Message));
+    message->message = malloc(sizeof(char) * 40);
+    scanf("%s", message->message);
+    return message;
+}
+
 void printIntroduction() {
     printf("** PCB's and Processing Scheduling Simulation **\n");
     printf("* Process Commands *\n");
@@ -111,11 +118,11 @@ void printQuantumReport(int pid) {
     }
 }
 
-void printSendReport(int pid) {
+void printSendReport(int pid, Message * message) {
 
 }
 
-void printReceiveReport(int pid) {
+void printReceiveReport(int pid, Message * message) {
 
 }
 
@@ -171,6 +178,7 @@ void procinfo(int pid) {
     printNumToPriority(process->priority);
     printf(", State - ");
     printNumToState(process->state);
+    printf(" Messages Waiting - %d", process->messages->count);
     printf("\n");
 }
 

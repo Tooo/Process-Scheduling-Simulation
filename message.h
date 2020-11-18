@@ -20,8 +20,8 @@ void Message_free(void * message);
 List * Message_getQueue(int num);
 int * Message_getQueueArray(int num);
 
-int Message_send(int pid, char * msg);
-int Message_receieve();
-int Message_reply(int pid, char * msg);
+int Message_send(int pid, Message * message);
+int Message_receieve(Message * message);
+int Message_reply(int pid, Message * message);
 
 #endif

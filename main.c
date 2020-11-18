@@ -5,7 +5,7 @@
 int main () {
     int priority;
     int pid;
-    //char * message;
+    Message * message;
 
     if (Process_setup() != 0) {
         printInvalidSetup();
@@ -44,10 +44,20 @@ int main () {
                 printQuantumReport(pid);
                 break;
             case 'S':
+                pid = inputPID();
+                message = inputMessage();
+                pid = Message_send(pid, message);
+                printSendReport(pid, message);
                 break;
             case 'R':
+                pid = Message_receieve(message);
+                printReceiveReport(pid, message);
                 break;
             case 'Y':
+                pid = inputPID();
+                message = inputMessage();
+                pid = Message_send(pid, message);
+                printReplyReport(pid);
                 break;
             case 'N':
                 break;
