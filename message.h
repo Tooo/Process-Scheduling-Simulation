@@ -3,6 +3,12 @@
 
 #include "list.h"
 
+typedef struct Message_s Message;
+struct Message_s {
+    char * message;
+    int sender;
+};
+
 enum MESSAGEQUEUE {
     QUEUE_SEND,
     QUEUE_RECEIVE
