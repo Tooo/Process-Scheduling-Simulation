@@ -5,8 +5,9 @@
 
 typedef struct Message_s Message;
 struct Message_s {
-    char * message;
+    char * msg;
     int sender;
+    int receiver;
 };
 
 enum MESSAGEQUEUE {

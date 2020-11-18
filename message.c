@@ -23,7 +23,7 @@ int Message_setup() {
 
 void Message_free(void * message) {
     Message * message_node = message;
-    message_node->message = NULL;
+    message_node->msg = NULL;
     message_node->sender = 0;
 }
 
@@ -54,6 +54,12 @@ PCB * removeProcess(int num, int pid) {
 }
 
 int Message_send(int pid, Message * message) {
+    if (message == NULL) {
+        return -1;
+    }
+    message->sender = Process_getCurrentProcess()->PID;
+    message->receiver = pid;
+
     PCB * process = removeProcess(QUEUE_RECEIVE, pid);
     if (process == NULL) {
         process = Process_getProcess(pid);
@@ -81,16 +87,19 @@ int Message_receieve(Message * message) {
         }
         List_prepend(receiveQueue, process);
         Process_changeRunningProcess();
-    } 
+    } else {
+        message = List_trim(messages);
+    }
     return process->PID;
 }
 
 int Message_reply(int pid, Message * message) {
     PCB * process = removeProcess(QUEUE_SEND, pid);
     if (process == NULL) {
-        return 0;
+        return -1;
     }
-
+    message->sender = Process_getCurrentProcess()->PID;
+    message->receiver = pid;
     List * messages = process->messages;
     List_prepend(messages, message);
     return pid;

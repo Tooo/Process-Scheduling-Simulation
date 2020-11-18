@@ -18,7 +18,7 @@ char inputChar() {
 
 int inputPriorityInt() {
     int input;
-    printf("Input Priority Int (0 - high, 1 - norm , 2 - low)\n");
+    printf("Input Priority Int (0 - high, 1 - norm , 2 - low): ");
     scanf("%d", &input);
 
     while (input < 0 || input > 2) {
@@ -30,15 +30,25 @@ int inputPriorityInt() {
 
 int inputPID() {
     int input;
-    printf("Input Process ID\n");
+    printf("Input Process ID: ");
     scanf("%d", &input);
     return input;
 }
 
 Message * inputMessage() {
     Message * message = malloc(sizeof(Message));
-    message->message = malloc(sizeof(char) * 40);
-    scanf("%s", message->message);
+    if (message == NULL) {
+        return NULL;
+    }
+
+    message->msg = malloc(sizeof(char) * 40);
+    if (message->msg == NULL) {
+        free(message);
+        return NULL;
+    }
+
+    printf("Input Message (max 40 char): ");
+    scanf("%s", message->msg);
     return message;
 }
 
@@ -119,15 +129,42 @@ void printQuantumReport(int pid) {
 }
 
 void printSendReport(int pid, Message * message) {
+    if (pid < 0) {
+        printf("FAILED: Send failed\n");
+        free(message->msg);
+        free(message);
+        return;
+    }
 
+    printf("SUCESS: Process &d sent to Send Queue\n");
+
+    if (message != NULL) {
+        printf("(%d -> %d): %s\n", message->sender, message->receiver, message->msg);
+    }
 }
 
 void printReceiveReport(int pid, Message * message) {
+    if (pid < 0) {
+        printf("FAILED: Receieve failed\n");
+        return;
+    }
 
+    if (message != NULL) {
+        printf("SUCESS: (%d -> %d): %s\n", message->sender, message->receiver, message->msg);
+        free(message->msg);
+        free(message);
+    } else {
+        printf("SUCESS: Process %d move to Recieve Queue\n", pid);
+    }
 }
 
 void printReplyReport(int pid) {
-    
+    if (pid < 0) {
+        printf("FAILED: Receieve failed\n");
+        return;
+    }
+
+    printf("SUCESS: Process %d removed from Sender Queue\n", pid);
 }
 
 void printNumToPriority(int priority) {
