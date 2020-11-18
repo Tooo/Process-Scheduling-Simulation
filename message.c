@@ -37,6 +37,16 @@ int * Message_getQueueArray(int num) {
     return Process_QueueToArray(queue);
 }
 
+PCB * removeProcess(int num) {
+    List * queue = Message_getQueue(num);
+    List_first(queue);
+    PCB * process = List_search(queue, Process_comparePid, &num);
+    if (process == NULL) {
+        return NULL;
+    }
+    return List_remove(queue);
+}
+
 int Message_send(int pid, char * msg) {
     return 0;
 }
