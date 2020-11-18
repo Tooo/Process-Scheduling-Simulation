@@ -50,7 +50,7 @@ int main () {
                 printSendReport(pid, message);
                 break;
             case 'R':
-                pid = Message_receieve(message);
+                pid = Message_receive(message);
                 printReceiveReport(pid, message);
                 break;
             case 'Y':

@@ -67,28 +67,31 @@ int Message_send(int pid, Message * message) {
     if (message == NULL) {
         return -1;
     }
-    message->sender = Process_getCurrentProcess()->PID;
+    PCB * senderProcess = Process_getCurrentProcess();
+    message->sender = senderProcess->PID;
     message->receiver = pid;
 
-    PCB * process = removeProcess(QUEUE_RECEIVE, pid);
-    if (process == NULL) {
-        process = Process_getProcess(pid);
-        if (process == NULL) {
+    PCB * receiverProcess = removeProcess(QUEUE_RECEIVE, pid);
+    if (receiverProcess == NULL) {
+        receiverProcess = Process_getProcess(pid);
+        if (receiverProcess == NULL) {
             return -1;
         }
-        process->isMessageReceived = true;
-        prependMessage(process, message);
+        prependMessage(receiverProcess, message);
+    } else {
+        receiverProcess->isMessageReceived = true;
+        Process_prependToReadyQueue(receiverProcess);
     }
 
-    if (process->PID != 0) {
-        process->state = PROCESS_BLOCKED;
+    if (senderProcess->PID != 0) {
+        senderProcess->state = PROCESS_BLOCKED;
     }
-    List_add(sendQueue, process);
+    List_add(sendQueue, senderProcess);
     Process_changeRunningProcess();
-    return 0;
+    return senderProcess->PID;
 }
 
-int Message_receieve(Message * message) {
+int Message_receive(Message * message) {
     PCB * process = Process_getCurrentProcess();
     List * messages = process->messages;
     if (List_count(messages) == 0) {
@@ -97,6 +100,7 @@ int Message_receieve(Message * message) {
         }
         List_prepend(receiveQueue, process);
         Process_changeRunningProcess();
+        message = NULL;
     } else {
         message = Message_getMessage(process);
     }

@@ -32,6 +32,7 @@ PCB * Process_getCurrentProcess();
 bool Process_comparePid(void * pcb, void * pid);
 PCB * Process_getProcess(int pid);
 PCB * Process_removeProcess(int pid);
+int Process_prependToReadyQueue(PCB * process);
 
 int * Process_QueueToArray(List * queue);
 int * Process_getQueueArray(int priority);

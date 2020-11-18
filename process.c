@@ -111,6 +111,16 @@ PCB * searchProcess(int pid, List ** queue) {
     return NULL;
 }
 
+int Process_prependToReadyQueue(PCB * process) {
+    process->state = PROCESS_READY;
+    List * queue = getProcessQueue(process->priority);
+
+    if (queue == NULL) {
+        return 1;
+    }
+    return List_prepend(queue, process);
+}
+
 PCB * Process_getProcess(int pid) {
     List * queue = NULL;
     return searchProcess(pid, &queue);
@@ -159,16 +169,6 @@ int * Process_getQueueArray(int priority) {
     return Process_QueueToArray(queue);
 }
 
-int processToReadyQueue(PCB * process) {
-    process->state = PROCESS_READY;
-    List * queue = getProcessQueue(process->priority);
-
-    if (queue == NULL) {
-        return 1;
-    }
-    return List_prepend(queue, process);
-}
-
 void Process_changeRunningProcess() {
     if (List_count(highQueue) != 0) {
         runningProcess = List_trim(highQueue);
@@ -211,7 +211,7 @@ int Process_create(int priority) {
         process->state = PROCESS_RUNNING;
         runningProcess = process;
     } else {
-        int result = processToReadyQueue(process);
+        int result = Process_prependToReadyQueue(process);
         if (result != 0) {
             free(process);
             processInt--;
@@ -240,7 +240,7 @@ int Process_fork() {
     process->messages = List_create();
     process->isMessageReceived = false;
 
-    result = processToReadyQueue(process);
+    result = Process_prependToReadyQueue(process);
     if (result != 0) {
         free(process);
         processInt--;
@@ -291,7 +291,7 @@ int Process_exit() {
 }
 
 int Process_quantum() {
-    processToReadyQueue(runningProcess);
+    Process_prependToReadyQueue(runningProcess);
     Process_changeRunningProcess();
     return runningProcess->PID;
 }

@@ -87,7 +87,7 @@ void printProcessChange() {
 
     if (process->isMessageReceived) {
         Message * message = Message_getMessage(process);
-        printf("SUCESS: (%d -> %d): %s\n", message->sender, message->receiver, message->msg);
+        printf("(%d -> %d): %s\n", message->sender, message->receiver, message->msg);
         process->isMessageReceived = false;
     }
 }
