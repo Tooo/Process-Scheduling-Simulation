@@ -18,6 +18,7 @@ int Process_setup() {
     init.state = PROCESS_RUNNING;
     init.priority = 0;
     init.messages = List_create();
+    init.isMessageReceived = false;
     if (init.messages == NULL) {
         return 1;
     }
@@ -203,6 +204,7 @@ int Process_create(int priority) {
     process->PID = processInt++;
     process->priority = priority;
     process->messages = List_create();
+    process->isMessageReceived = false;
     
     if (init.state == PROCESS_RUNNING) {
         init.state = PROCESS_READY;
@@ -236,6 +238,7 @@ int Process_fork() {
     process->PID = processInt++;
     process->priority = runningProcess->priority;
     process->messages = List_create();
+    process->isMessageReceived = false;
 
     result = processToReadyQueue(process);
     if (result != 0) {

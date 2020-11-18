@@ -10,6 +10,7 @@ struct PCB_s {
     int priority;
     int state;
     List * messages;
+    bool isMessageReceived;
 };
 
 enum STATE {
