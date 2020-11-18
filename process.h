@@ -9,7 +9,7 @@ struct PCB_s {
     int PID;
     int priority;
     int state;
-    List * msgs;
+    List * messages;
 };
 
 enum STATE {

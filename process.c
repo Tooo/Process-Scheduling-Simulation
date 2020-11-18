@@ -36,6 +36,10 @@ int Process_setup() {
     return 0;
 }
 
+void freeProcess(PCB* process) {
+
+}
+
 bool Process_isInitExited() {
     if (init.state == PROCESS_BLOCKED) {
         return true;
@@ -189,7 +193,7 @@ int Process_create(int priority) {
 
     process->PID = processInt++;
     process->priority = priority;
-    process->msgs = List_create();
+    process->messages = List_create();
     
     if (init.state == PROCESS_RUNNING) {
         init.state = PROCESS_READY;
@@ -222,7 +226,7 @@ int Process_fork() {
 
     process->PID = processInt++;
     process->priority = runningProcess->priority;
-    process->msgs = List_create();
+    process->messages = List_create();
 
     result = processToReadyQueue(process);
     if (result != 0) {

@@ -1,3 +1,5 @@
+#ifndef _TEXTMENU_H_
+#define _TEXTMENU_H_
 
 char inputChar();
 int inputPriorityInt();
@@ -19,3 +21,5 @@ void printReplyReport(int pid);
 
 void procinfo(int pid);
 void totalinfo();
+
+#endif

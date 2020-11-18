@@ -54,7 +54,8 @@ int Message_send(int pid, char * msg) {
         if (process == NULL) {
             return -1;
         }
-        process->message = msg;
+        List * messages = process->messages;
+        List_prepend(messages, msg);
     }
 
     if (process->PID != 0) {
@@ -67,8 +68,8 @@ int Message_send(int pid, char * msg) {
 
 int Message_receieve() {
     PCB * process = Process_getCurrentProcess();
-
-    if (process->message == NULL) {
+    List * messages = process->messages;
+    if (List_count(messages) == 0) {
         if (process->PID != 0) {
             process->state = PROCESS_BLOCKED;
         }
@@ -84,5 +85,5 @@ int Message_reply(int pid, char * msg) {
         return NULL;
     }
 
-    process->message = msg;
+    //process->messages = msg;
 }
