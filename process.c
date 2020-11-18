@@ -3,6 +3,7 @@
 
 #include "process.h"
 #include "list.h"
+#include "message.h"
 
 static List * highQueue;
 static List * normQueue;
@@ -37,7 +38,10 @@ int Process_setup() {
 }
 
 void freeProcess(PCB* process) {
-
+    process->PID = 0;
+    process->priority = 0;
+    process->state = 0;
+    List_free(process->messages, Message_free);
 }
 
 bool Process_isInitExited() {

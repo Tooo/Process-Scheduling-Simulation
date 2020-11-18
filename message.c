@@ -21,6 +21,12 @@ int Message_setup() {
     return 0;
 }
 
+void Message_free(void * message) {
+    Message * message_node = message;
+    message_node->message = NULL;
+    message_node->sender = 0;
+}
+
 List * Message_getQueue(int num) {
     switch (num) {
         case QUEUE_SEND:

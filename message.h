@@ -15,6 +15,7 @@ enum MESSAGEQUEUE {
 };
 
 int Message_setup();
+void Message_free(void * message);
 
 List * Message_getQueue(int num);
 int * Message_getQueueArray(int num);
