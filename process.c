@@ -189,6 +189,7 @@ int Process_create(int priority) {
 
     process->PID = processInt++;
     process->priority = priority;
+    process->msgs = List_create();
     
     if (init.state == PROCESS_RUNNING) {
         init.state = PROCESS_READY;
@@ -221,8 +222,9 @@ int Process_fork() {
 
     process->PID = processInt++;
     process->priority = runningProcess->priority;
-    result = processToReadyQueue(process);
+    process->msgs = List_create();
 
+    result = processToReadyQueue(process);
     if (result != 0) {
         free(process);
         processInt--;
