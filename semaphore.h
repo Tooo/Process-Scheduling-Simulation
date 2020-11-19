@@ -1,17 +1,18 @@
 #ifndef _SEMAPHORE_H_
 #define _SEMAPHORE_H_
+
 #include "list.h"
+#include "stdbool.h"
 
 typedef struct Semaphore_s Semaphore;
 struct Semaphore_s {
-    int sid;
+    bool isEnabled;
+    int value;
     List * waitingList;
 };
 
-void Semaphore_new(int semaphore);
-
-void Semaphore_p(int semaphore);
-
-void Semaphore_v(int semaphore);
+int Semaphore_new(int sid);
+int Semaphore_p(int sid);
+int Semaphore_v(int sid);
 
 #endif
