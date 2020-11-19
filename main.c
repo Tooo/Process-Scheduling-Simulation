@@ -56,7 +56,7 @@ int main () {
             case 'Y':
                 pid = inputPID();
                 message = inputMessage();
-                pid = Message_send(pid, message);
+                pid = Message_reply(pid, message);
                 printReplyReport(pid);
                 break;
             case 'N':

@@ -56,7 +56,7 @@ Message * Message_getMessage(PCB * process) {
 PCB * removeProcess(int num, int pid) {
     List * queue = Message_getQueue(num);
     List_first(queue);
-    PCB * process = List_search(queue, Process_comparePid, &num);
+    PCB * process = List_search(queue, Process_comparePid, &pid);
     if (process == NULL) {
         return NULL;
     }
@@ -103,11 +103,16 @@ int Message_receive(Message * message) {
         message = NULL;
     } else {
         message = Message_getMessage(process);
+        process->isMessageReceived = true;
     }
     return process->PID;
 }
 
 int Message_reply(int pid, Message * message) {
+    if (message == NULL) {
+        return -1;
+    }
+
     PCB * process = removeProcess(QUEUE_SEND, pid);
     if (process == NULL) {
         return -1;
@@ -116,5 +121,6 @@ int Message_reply(int pid, Message * message) {
     message->receiver = pid;
     prependMessage(process, message);
     process->isMessageReceived = true;
+    Process_prependToReadyQueue(process);
     return pid;
 }

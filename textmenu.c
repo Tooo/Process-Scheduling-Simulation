@@ -166,21 +166,23 @@ void printReceiveReport(int pid, Message * message) {
         return;
     }
 
-    if (message != NULL) {
+    PCB * process = Process_getCurrentProcess();
+
+    if (process->isMessageReceived) {
         printf("SUCESS: (%d -> %d): %s\n", message->sender, message->receiver, message->msg);
         free(message->msg);
         free(message);
+        process->isMessageReceived = false;
     } else {
-        printf("SUCESS: Process %d move to Recieve Queue\n", pid);
+        printf("SUCESS: Process %d move to Receive Queue\n", pid);
     }
 }
 
 void printReplyReport(int pid) {
     if (pid < 0) {
-        printf("FAILED: Receieve failed\n");
+        printf("FAILED: Reply failed\n");
         return;
     }
-
     printf("SUCESS: Process %d removed from Sender Queue\n", pid);
 }
 
