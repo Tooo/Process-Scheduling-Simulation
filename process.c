@@ -4,6 +4,7 @@
 #include "process.h"
 #include "list.h"
 #include "message.h"
+#include "semaphore.h"
 
 static List * highQueue;
 static List * normQueue;
@@ -116,6 +117,15 @@ PCB * searchProcess(int pid, List ** queue) {
         }
     }
 
+    for (int i = 0; i < SEMAPHORE_COUNT; i++) {
+        *queue = Semaphore_getQueue(i);
+        List_first(*queue);
+        process = List_search(*queue, Process_comparePid, &pid);
+        if (process != NULL) {
+            return process;
+        }
+    }
+
     queue = NULL;
     return NULL;
 }
@@ -207,6 +217,12 @@ bool isAllListsEmpty() {
         }
     }
 
+    for (int i = 0; i < SEMAPHORE_COUNT; i++) {
+        queue = Semaphore_getQueue(i);
+        if (List_count(queue) != 0) {
+            return false;
+        }
+    }
     return true;
 }
 
