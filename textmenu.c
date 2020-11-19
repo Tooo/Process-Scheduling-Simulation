@@ -170,12 +170,12 @@ void printSendReport(int pid, Message * message) {
         return;
     }
 
-    printf("SUCESS: Process %d sent to Send Queue\n", pid);
+    printf("SUCESS: Process %d is waiting for reply\n", pid);
 }
 
 void printReceiveReport(int pid, Message * message) {
     if (pid < 0) {
-        printf("FAILED: Receieve failed\n");
+        printf("FAILED: Receive failed\n");
         return;
     }
 
@@ -187,7 +187,7 @@ void printReceiveReport(int pid, Message * message) {
         free(message);
         process->isMessageReceived = false;
     } else {
-        printf("SUCESS: Process %d move to Receive Queue\n", pid);
+        printf("SUCESS: Process %d is waiting for Message\n", pid);
     }
 }
 
@@ -196,7 +196,7 @@ void printReplyReport(int pid) {
         printf("FAILED: Reply failed\n");
         return;
     }
-    printf("SUCESS: Process %d removed from Sender Queue\n", pid);
+    printf("SUCESS: Process %d has been replied\n", pid);
 }
 
 void printSemaphoreNewReport(int sid) {

@@ -131,6 +131,10 @@ PCB * searchProcess(int pid, List ** queue) {
 }
 
 int Process_prependToReadyQueue(PCB * process) {
+    if (process->PID == 0) {
+        return 0;
+    }
+
     process->state = PROCESS_READY;
     List * queue = getProcessQueue(process->priority);
 
