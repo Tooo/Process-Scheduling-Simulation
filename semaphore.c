@@ -24,6 +24,15 @@ List * Semaphore_getQueue(int sid) {
     return semaphores[sid].waitingList;
 }
 
+int * Semaphore_getQueueArray(int sid) {
+    List * queue = Semaphore_getQueue(sid);
+    return Process_QueueToArray(queue);
+}
+
+bool Semaphore_isEnabled(int sid) {
+    return semaphores[sid].isEnabled;
+}
+
 int Semaphore_new(int sid) {
     Semaphore * s = &semaphores[sid];
     if (s->isEnabled) {

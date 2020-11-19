@@ -6,6 +6,7 @@
 #include "textmenu.h"
 #include "process.h"
 #include "message.h"
+#include "semaphore.h"
 
 static int currentProcessId = 0;
 
@@ -319,4 +320,12 @@ void totalinfo() {
     printf("Receive Waiting Queue: ");
     array = Message_getQueueArray(QUEUE_RECEIVE);
     printArray(array);
+
+    for (int i = 0; i < SEMAPHORE_COUNT; i++) {
+        if (Semaphore_isEnabled(i)) {
+            printf("Semaphore %d Queue: ", i);
+            array = Semaphore_getQueueArray(i);
+            printArray(array);
+        }
+    }
 }

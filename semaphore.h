@@ -6,6 +6,8 @@
 
 #define SEMAPHORE_COUNT 5
 
+#include "list.h"
+
 typedef struct Semaphore_s Semaphore;
 struct Semaphore_s {
     bool isEnabled;
@@ -14,6 +16,10 @@ struct Semaphore_s {
 };
 
 int Sempahore_setup();
+
+List * Semaphore_getQueue(int sid);
+int * Semaphore_getQueueArray(int sid);
+bool Semaphore_isEnabled(int sid);
 
 int Semaphore_new(int sid);
 int Semaphore_p(int sid);
