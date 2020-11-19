@@ -19,6 +19,11 @@ int main () {
         return 1;
     }
 
+    if (Sempahore_setup() != 0) {
+        printInvalidSetup();
+        return 1;
+    }
+
     printIntroduction();
     while (!Process_isInitExited()) {
         char input = inputChar();
