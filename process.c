@@ -107,6 +107,15 @@ PCB * searchProcess(int pid, List ** queue) {
         }
     }
 
+    for (int i = 0; i < 2; i++) {
+        * queue = Message_getQueue(i);
+        List_first(*queue);
+        process = List_search(*queue, Process_comparePid, &pid);
+        if (process != NULL) {
+            return process;
+        }
+    }
+
     queue = NULL;
     return NULL;
 }
@@ -183,15 +192,22 @@ void Process_changeRunningProcess() {
 }
 
 bool isAllListsEmpty() {
-    if (List_count(highQueue) != 0) {
-        return false;
-    } else if (List_count(normQueue) != 0) {
-        return false;
-    } else if (List_count(lowQueue) != 0) {
-        return false;
-    } else {
-        return true;
+    List * queue;
+    for (int i = 0; i < 3; i++) {
+        queue = getProcessQueue(i);
+        if (List_count(queue) != 0) {
+            return false;
+        }
     }
+
+    for (int i = 0; i < 2; i++) {
+        queue = Message_getQueue(i);
+        if (List_count(queue) != 0) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 int Process_create(int priority) {
@@ -213,7 +229,7 @@ int Process_create(int priority) {
     } else {
         int result = Process_prependToReadyQueue(process);
         if (result != 0) {
-            free(process);
+            freeProcess(process);
             processInt--;
             Process_changeRunningProcess();
             return -1;
@@ -242,7 +258,7 @@ int Process_fork() {
 
     result = Process_prependToReadyQueue(process);
     if (result != 0) {
-        free(process);
+        freeProcess(process);
         processInt--;
         return -1;
     }
@@ -261,7 +277,7 @@ int Process_kill(int pid) {
     }
 
     if (pid == runningProcess->PID) {
-        free(runningProcess);
+        freeProcess(runningProcess);
         Process_changeRunningProcess();
     } else {
         PCB * process = Process_removeProcess(pid);
@@ -269,7 +285,7 @@ int Process_kill(int pid) {
         if (process == NULL) {
             return -1;
         }
-        free(process);
+        freeProcess(process);
     }
     
     return pid;
@@ -285,7 +301,7 @@ int Process_exit() {
         }
     } 
     int pid = runningProcess->PID;
-    free(runningProcess);
+    freeProcess(runningProcess);
     Process_changeRunningProcess();
     return pid;
 }

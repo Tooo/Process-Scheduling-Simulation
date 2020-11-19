@@ -25,6 +25,7 @@ void Message_free(void * message) {
     Message * message_node = message;
     message_node->msg = NULL;
     message_node->sender = 0;
+    message_node->receiver = 0;
 }
 
 List * Message_getQueue(int num) {
