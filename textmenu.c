@@ -54,6 +54,18 @@ Message * inputMessage() {
     return message;
 }
 
+int inputSID() {
+    int input = -1;
+    printf("Input Semaphore ID (0-4): ");
+    scanf("%d", &input);
+    while (input < 0 || input > 4) {
+        printf("Invalid Semaphore ID\n");
+        printf("Input Semaphore ID (0-4): ");
+        scanf("%d", &input);
+    }
+    return input;
+}
+
 void printIntroduction() {
     printf("** PCB's and Processing Scheduling Simulation **\n");
     printf("* Process Commands *\n");
@@ -184,6 +196,30 @@ void printReplyReport(int pid) {
         return;
     }
     printf("SUCESS: Process %d removed from Sender Queue\n", pid);
+}
+
+void printSemaphoreNewReport(int sid) {
+    if (sid < 0) {
+        printf("FAILED: Semaphore already created\n");
+    } else {
+        printf("SUCESS: Semaphore %d created\n", sid);
+    }
+}
+
+void printSemaphorePReport(int sid) {
+    if (sid < 0) {
+        printf("FAILED: Semaphore not created yet\n");
+    } else {
+        printf("SUCESS: Semaphore %d P\n", sid);
+    }
+}
+
+void printSemaphoreVReport(int sid) {
+    if (sid < 0) {
+        printf("FAILED: Semaphore not created yet\n");
+    } else {
+        printf("SUCESS: Semaphore %d V\n", sid);
+    }
 }
 
 void printNumToPriority(int priority) {

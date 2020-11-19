@@ -7,6 +7,7 @@ char inputChar();
 int inputPriorityInt();
 int inputPID();
 Message * inputMessage();
+int inputSID();
 
 void printIntroduction();
 void printInvalidSetup();
@@ -22,6 +23,10 @@ void printQuantumReport(int pid);
 void printSendReport(int pid, Message * message);
 void printReceiveReport(int pid, Message * message);
 void printReplyReport(int pid);
+
+void printSemaphoreNewReport(int sid);
+void printSemaphorePReport(int sid);
+void printSemaphoreVReport(int sid);
 
 void procinfo(int pid);
 void totalinfo();

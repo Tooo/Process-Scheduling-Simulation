@@ -1,11 +1,13 @@
 #include "textmenu.h"
 #include "process.h"
 #include "message.h"
+#include "semaphore.h"
 
 int main () {
     int priority;
     int pid;
     Message * message;
+    int sid;
 
     if (Process_setup() != 0) {
         printInvalidSetup();
@@ -60,10 +62,19 @@ int main () {
                 printReplyReport(pid);
                 break;
             case 'N':
+                sid = inputSID();
+                sid = Semaphore_new(sid);
+                printSemaphoreNewReport(sid);
                 break;
             case 'P':
+                sid = inputSID();
+                sid = Semaphore_p(sid);
+                printSemaphorePReport(sid);
                 break;
             case 'V':
+                sid = inputSID();
+                sid = Semaphore_v(sid);
+                printSemaphoreVReport(sid);
                 break;
             case 'I':
                 pid = inputPID();
