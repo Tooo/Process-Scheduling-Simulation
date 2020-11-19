@@ -69,6 +69,9 @@ int Semaphore_v(int sid) {
     s->value++;
     if (s->value <= 0) {
         PCB * process = List_trim(s->waitingList);
+        if (process == NULL) {
+            return sid;
+        }
         Process_prependToReadyQueue(process);
     }
     return sid;
