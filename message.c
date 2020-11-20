@@ -88,9 +88,11 @@ int Message_send(int pid, Message * message) {
         Process_prependToReadyQueue(receiverProcess);
     }
 
-    if (senderProcess->PID != 0) {
-        senderProcess->state = PROCESS_BLOCKED;
+    if (Process_isInitRunning()) {
+        return 0;
     }
+
+    senderProcess->state = PROCESS_BLOCKED;
     List_add(sendQueue, senderProcess);
     Process_changeRunningProcess();
     return senderProcess->PID;
@@ -99,10 +101,13 @@ int Message_send(int pid, Message * message) {
 int Message_receive() {
     PCB * process = Process_getCurrentProcess();
     List * messages = process->messages;
+
     if (List_count(messages) == 0) {
-        if (process->PID != 0) {
-            process->state = PROCESS_BLOCKED;
+        if (Process_isInitRunning()) {
+            return -1;
         }
+
+        process->state = PROCESS_BLOCKED;
         List_prepend(receiveQueue, process);
         Process_changeRunningProcess();
     } else {

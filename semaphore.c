@@ -52,9 +52,10 @@ int Semaphore_p(int sid) {
     s->value--;
     if (s->value < 0) {
         PCB * process = Process_getCurrentProcess();
-        if (process->PID != 0) {
-            process->state = PROCESS_BLOCKED;
+        if (Process_isInitRunning()) {
+            return sid;
         }
+        process->state = PROCESS_BLOCKED;
         List_prepend(s->waitingList, process);
         Process_changeRunningProcess();
     }

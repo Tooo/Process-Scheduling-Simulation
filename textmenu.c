@@ -179,7 +179,7 @@ void printSendReport(int pid) {
     if (pid < 0) {
         printf("FAILED: Send failed\n");
     } else {
-        printf("SUCESS: Process %d is waiting for reply\n", pid);
+        printf("SUCESS: Process %d's message sent\n", pid);
     }
 }
 
