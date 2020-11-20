@@ -23,10 +23,10 @@ int Message_setup() {
 
 void Message_free(void * message) {
     Message * message_node = message;
-    message_node->msg = NULL;
+    free(message_node->msg);
     message_node->sender = 0;
     message_node->receiver = 0;
-    free(message);
+    free(message_node);
 }
 
 List * Message_getQueue(int num) {
@@ -69,6 +69,7 @@ int Message_send(int pid, Message * message) {
     if (message == NULL) {
         return -1;
     }
+
     PCB * senderProcess = Process_getCurrentProcess();
     message->sender = senderProcess->PID;
     message->receiver = pid;
@@ -77,11 +78,13 @@ int Message_send(int pid, Message * message) {
     if (receiverProcess == NULL) {
         receiverProcess = Process_getProcess(pid);
         if (receiverProcess == NULL) {
+            Message_free(message);
             return -1;
         }
         prependMessage(receiverProcess, message);
     } else {
         receiverProcess->isMessageReceived = true;
+        prependMessage(receiverProcess, message);
         Process_prependToReadyQueue(receiverProcess);
     }
 
@@ -93,7 +96,7 @@ int Message_send(int pid, Message * message) {
     return senderProcess->PID;
 }
 
-int Message_receive(Message * message) {
+int Message_receive() {
     PCB * process = Process_getCurrentProcess();
     List * messages = process->messages;
     if (List_count(messages) == 0) {
@@ -102,9 +105,7 @@ int Message_receive(Message * message) {
         }
         List_prepend(receiveQueue, process);
         Process_changeRunningProcess();
-        message = NULL;
     } else {
-        message = Message_getMessage(process);
         process->isMessageReceived = true;
     }
     return process->PID;
@@ -117,6 +118,7 @@ int Message_reply(int pid, Message * message) {
 
     PCB * process = removeProcess(QUEUE_SEND, pid);
     if (process == NULL) {
+        Message_free(message);
         return -1;
     }
     message->sender = Process_getCurrentProcess()->PID;

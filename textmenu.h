@@ -21,8 +21,8 @@ void printKillReport(int pid);
 void printExitReport(int pid);
 void printQuantumReport(int pid);
 
-void printSendReport(int pid, Message * message);
-void printReceiveReport(int pid, Message * message);
+void printSendReport(int pid);
+void printReceiveReport(int pid);
 void printReplyReport(int pid);
 
 void printSemaphoreNewReport(int sid, int svalue);

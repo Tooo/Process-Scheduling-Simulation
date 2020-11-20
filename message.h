@@ -24,7 +24,7 @@ int * Message_getQueueArray(int num);
 Message * Message_getMessage(PCB * process);
 
 int Message_send(int pid, Message * message);
-int Message_receive(Message * message);
+int Message_receive();
 int Message_reply(int pid, Message * message);
 
 #endif

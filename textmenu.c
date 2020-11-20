@@ -113,6 +113,7 @@ void printProcessChange() {
     if (process->isMessageReceived) {
         Message * message = Message_getMessage(process);
         printf("(%d -> %d): %s\n", message->sender, message->receiver, message->msg);
+        Message_free(message);
         process->isMessageReceived = false;
     }
 }
@@ -174,18 +175,15 @@ void printQuantumReport(int pid) {
     }
 }
 
-void printSendReport(int pid, Message * message) {
+void printSendReport(int pid) {
     if (pid < 0) {
         printf("FAILED: Send failed\n");
-        free(message->msg);
-        free(message);
-        return;
+    } else {
+        printf("SUCESS: Process %d is waiting for reply\n", pid);
     }
-
-    printf("SUCESS: Process %d is waiting for reply\n", pid);
 }
 
-void printReceiveReport(int pid, Message * message) {
+void printReceiveReport(int pid) {
     if (pid < 0) {
         printf("FAILED: Receive failed\n");
         return;
@@ -194,9 +192,9 @@ void printReceiveReport(int pid, Message * message) {
     PCB * process = Process_getCurrentProcess();
 
     if (process->isMessageReceived) {
+        Message * message = Message_getMessage(process);
         printf("SUCESS: (%d -> %d): %s\n", message->sender, message->receiver, message->msg);
-        free(message->msg);
-        free(message);
+        Message_free(message);
         process->isMessageReceived = false;
     } else {
         printf("SUCESS: Process %d is waiting for Message\n", pid);
@@ -325,11 +323,11 @@ void totalinfo() {
     array = Process_getQueueArray(PRIORITY_LOW);
     printArray(array);
 
-    printf("Send Waiting Queue: ");
+    printf("Send Waiting List: ");
     array = Message_getQueueArray(QUEUE_SEND);
     printArray(array);
 
-    printf("Receive Waiting Queue: ");
+    printf("Receive Waiting List: ");
     array = Message_getQueueArray(QUEUE_RECEIVE);
     printArray(array);
 

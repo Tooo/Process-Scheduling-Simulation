@@ -55,11 +55,11 @@ int main () {
                 pid = inputPID();
                 message = inputMessage();
                 pid = Message_send(pid, message);
-                printSendReport(pid, message);
+                printSendReport(pid);
                 break;
             case 'R':
-                pid = Message_receive(message);
-                printReceiveReport(pid, message);
+                pid = Message_receive();
+                printReceiveReport(pid);
                 break;
             case 'Y':
                 pid = inputPID();
