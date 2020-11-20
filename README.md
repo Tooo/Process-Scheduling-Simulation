@@ -44,7 +44,6 @@ Semaphore V will unblock a blocked process, if the semaphore value is less or eq
 ## Installation
 1. Download the zip file and unzip the file.
 2. Make the object and executable file: <br> `make`
-
 3. Run the executable: <br>`main`
 
 ## Commands
