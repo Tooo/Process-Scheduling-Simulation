@@ -4,6 +4,11 @@
 #include "list.h"
 #include "process.h"
 
+/*
+    Message
+    Manages messages system for simulation
+*/
+
 static List * sendQueue;
 static List * receiveQueue;
 

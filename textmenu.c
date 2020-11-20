@@ -8,6 +8,11 @@
 #include "message.h"
 #include "semaphore.h"
 
+/*
+    TextMenu
+    Manages the keyboard input and screen ouput functions
+*/
+
 static int currentProcessId = 0;
 
 char inputChar() {

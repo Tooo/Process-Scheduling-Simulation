@@ -4,6 +4,11 @@
 #include "list.h"
 #include "process.h"
 
+/*
+    Semaphore
+    Manages semaphore system for simulation
+*/
+
 static Semaphore semaphores[SEMAPHORE_COUNT];
 
 int Sempahore_setup() {

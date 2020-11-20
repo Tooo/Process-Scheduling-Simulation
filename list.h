@@ -35,7 +35,7 @@ struct List_s{
 
 // Maximum total number of nodes (statically allocated) to be shared across all lists
 // (You may modify for your needs)
-#define LIST_MAX_NUM_NODES 512
+#define LIST_MAX_NUM_NODES 500
 
 // General Error Handling:
 // Client code is assumed never to call these functions with a NULL List pointer, or 

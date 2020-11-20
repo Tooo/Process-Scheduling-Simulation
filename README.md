@@ -44,8 +44,13 @@ Semaphore V will unblock a blocked process, if the semaphore value is less or eq
 ## Installation
 1. Download the zip file and unzip the file.
 2. Make the object and executable file: <br> `make`
-
 3. Run the executable: <br>`main`
+
+#### Configuration
+- The maximum amount of processes and messages can be managed in list.h
+- Maximum of processes is managed by (at least 10 is required): <br> ```LIST_MAX_NUM_HEADS 110```
+- Maximum of messages and processes is managed by: <br> ```LIST_MAX_NUM_NODES 500```
+- With these numbers, max is 100 processors with 400 messages
 
 ## Commands
 Enter the character to execute the command. 

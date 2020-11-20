@@ -1,10 +1,14 @@
 #include <stdlib.h>
-#include <stdio.h> // TEST
 
 #include "process.h"
 #include "list.h"
 #include "message.h"
 #include "semaphore.h"
+
+/*
+    Process
+    Manages processes for simulation
+*/
 
 static List * highQueue;
 static List * normQueue;

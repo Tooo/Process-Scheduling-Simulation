@@ -3,6 +3,14 @@
 #include "message.h"
 #include "semaphore.h"
 
+/*
+    Main
+    PCB's and Process Scheduling Simulation
+    Interactive OS simulating basic functions
+    Receives keyboard inputs and output reports to screen
+    Has Process, Messsaging and Semaphore Commands
+*/
+
 int main () {
     int priority;
     int pid;
