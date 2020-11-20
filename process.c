@@ -49,10 +49,19 @@ void freeProcess(PCB* process) {
     process->priority = 0;
     process->state = 0;
     List_free(process->messages, Message_free);
+    free(process);
 }
 
 bool Process_isInitExited() {
     if (init.state == PROCESS_BLOCKED) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool Process_isInitRunning() {
+    if (init.state == PROCESS_RUNNING) {
         return true;
     } else {
         return false;
@@ -203,6 +212,9 @@ void Process_changeRunningProcess() {
         runningProcess = &init;
     }
     runningProcess->state = PROCESS_RUNNING;
+    if (runningProcess->PID != 0) {
+        init.state = PROCESS_READY;
+    }
 }
 
 bool isAllListsEmpty() {

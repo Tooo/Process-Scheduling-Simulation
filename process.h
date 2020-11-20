@@ -27,6 +27,7 @@ enum PRIORITY {
 
 int Process_setup();
 bool Process_isInitExited();
+bool Process_isInitRunning();
 
 PCB * Process_getCurrentProcess();
 bool Process_comparePid(void * pcb, void * pid);

@@ -74,6 +74,9 @@ int Semaphore_v(int sid) {
             return sid;
         }
         Process_prependToReadyQueue(process);
+        if (Process_isInitRunning()) {
+            Process_changeRunningProcess();
+        }
     }
     return sid;
 }
