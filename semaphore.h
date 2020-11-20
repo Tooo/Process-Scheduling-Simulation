@@ -21,7 +21,7 @@ List * Semaphore_getQueue(int sid);
 int * Semaphore_getQueueArray(int sid);
 bool Semaphore_isEnabled(int sid);
 
-int Semaphore_new(int sid);
+int Semaphore_new(int sid, int svalue);
 int Semaphore_p(int sid);
 int Semaphore_v(int sid);
 

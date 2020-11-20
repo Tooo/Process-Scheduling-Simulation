@@ -8,6 +8,7 @@ int main () {
     int pid;
     Message * message;
     int sid;
+    int svalue;
 
     if (Process_setup() != 0) {
         printInvalidSetup();
@@ -68,8 +69,9 @@ int main () {
                 break;
             case 'N':
                 sid = inputSID();
-                sid = Semaphore_new(sid);
-                printSemaphoreNewReport(sid);
+                svalue = inputSValue();
+                sid = Semaphore_new(sid, svalue);
+                printSemaphoreNewReport(sid, svalue);
                 break;
             case 'P':
                 sid = inputSID();

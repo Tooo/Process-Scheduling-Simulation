@@ -33,11 +33,12 @@ bool Semaphore_isEnabled(int sid) {
     return semaphores[sid].isEnabled;
 }
 
-int Semaphore_new(int sid) {
+int Semaphore_new(int sid, int svalue) {
     Semaphore * s = &semaphores[sid];
     if (s->isEnabled) {
         return -1;
     }
+    s->value = svalue;
     s->isEnabled = true;
     return sid;
 }

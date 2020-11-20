@@ -67,6 +67,18 @@ int inputSID() {
     return input;
 }
 
+int inputSValue() {
+    int input = -1;
+    printf("Input Semaphore Value (0<=): ");
+    scanf("%d", &input);
+    while (input < 0) {
+        printf("Invalid Semaphore Value\n");
+        printf("Input Semaphore Value (0<=): ");
+        scanf("%d", &input);
+    }
+    return input;
+}
+
 void printIntroduction() {
     printf("** PCB's and Processing Scheduling Simulation **\n");
     printf("* Process Commands *\n");
@@ -199,11 +211,11 @@ void printReplyReport(int pid) {
     printf("SUCESS: Process %d has been replied\n", pid);
 }
 
-void printSemaphoreNewReport(int sid) {
+void printSemaphoreNewReport(int sid, int svalue) {
     if (sid < 0) {
         printf("FAILED: Semaphore already created\n");
     } else {
-        printf("SUCESS: Semaphore %d created\n", sid);
+        printf("SUCESS: Semaphore %d created with value %d\n", sid, svalue);
     }
 }
 

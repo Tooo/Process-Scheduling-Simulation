@@ -8,6 +8,7 @@ int inputPriorityInt();
 int inputPID();
 Message * inputMessage();
 int inputSID();
+int inputSValue();
 
 void printIntroduction();
 void printInvalidSetup();
@@ -24,7 +25,7 @@ void printSendReport(int pid, Message * message);
 void printReceiveReport(int pid, Message * message);
 void printReplyReport(int pid);
 
-void printSemaphoreNewReport(int sid);
+void printSemaphoreNewReport(int sid, int svalue);
 void printSemaphorePReport(int sid);
 void printSemaphoreVReport(int sid);
 
