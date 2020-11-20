@@ -41,6 +41,12 @@ If the same semaphore is created more than twice, the command will fail.
 Semaphore P will block current process, if the semaphore value is less than 0.
 Semaphore V will unblock a blocked process, if the semaphore value is less or equal to 0.
 
+## Installation
+1. Download the zip file and unzip the file.
+2. Make the object and executable file: <br> `make`
+
+3. Run the executable: <br>`main`
+
 ## Commands
 Enter the character to execute the command. 
 If there is a parameter, input the parameter after the entering the command. 
@@ -65,7 +71,7 @@ If there are multiple parameters, input each parameter one at a time.
 ### Semaphore Commands
 | Command| Parameters | Action |
 | :---- |:----------| :-----|
-| New Semaphore (N) | Semaphore ID (0-4) <br> Initial Value (0=<) | Initialize semaphore with value given |
+| New Semaphore (N) | Semaphore ID (0-4) <br> Initial Value (=>0) | Initialize semaphore with value given |
 | Semaphore P (P) | Semaphore ID (0-4) | Execute semaphore P on running process |
 | Semaphore V (V) | Semaphore ID (0-4) | Execute semaphore V on running process |
 
