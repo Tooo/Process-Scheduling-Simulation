@@ -6,13 +6,15 @@ An interactive operating system simulating basic functions. The simulation recie
 ### Process 
 #### Process 0 (init)
 Once simulations starts, process 0 (init) will be created and run. 
-Process 0 cannot be forked. 
-Process 0 will never be blocked and only run if it's the only process or all other processes are blocked.
+Process 0 cannot be forked and can't recieve if no messages are waiting. 
+Process 0 will never be blocked and won't be sent to send waiting list nor semaphore list.
+Process 0 only run if it's the only process or all other processes are blocked.
 Process 0 can only be killed or exited when there is no processes left. 
 Once Process 0 is exited or killed, the simulation terminates.
 
 #### Scheduling Algorithm
-The simulation will use a preemptive round robin with three levels of priority. 
+The simulation will use a preemptive round robin algorithm with three levels of priority. 
+The higher priority processes will continue run and cycle through its own priority.
 Lower priority processes will only run if there are no ready processes that are higher priority. 
 
 ### Messaging
