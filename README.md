@@ -1,6 +1,4 @@
 # PCB's and Process Scheduling Simulation
-Travis Chan - 301358957
-
 An interactive operating system simulating basic functions. The simulation recieves keyboard inputs and outputs reports to the screen.
 
 ## Installation
