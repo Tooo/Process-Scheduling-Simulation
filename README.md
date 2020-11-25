@@ -3,6 +3,20 @@ Travis Chan - 301358957
 
 An interactive operating system simulating basic functions. The simulation recieves keyboard inputs and outputs reports to the screen.
 
+## Installation
+1. Clone the repository
+```bash
+git clone https://github.com/Toooo123/cmpt300A3.git
+```
+2. Make the objects and executable file: 
+```bash
+make
+```
+3. Run the executable:
+```bash
+main
+```
+## Simulation Information
 ### Process 
 #### Process 0 (init)
 Once simulations starts, process 0 (init) will be created and run. 
@@ -41,17 +55,6 @@ If the same semaphore is created more than twice, the command will fail.
 Semaphore P will block current process, if the semaphore value is less than 0.
 Semaphore V will unblock a blocked process, if the semaphore value is less or equal to 0.
 
-## Installation
-1. Download the zip file and unzip the file.
-2. Make the object and executable file: <br> `make`
-3. Run the executable: <br>`main`
-
-#### Configuration
-- The maximum amount of processes and messages can be managed in list.h
-- Maximum of processes is managed by (at least 10 is required): <br> ```LIST_MAX_NUM_HEADS 110```
-- Maximum of messages and processes is managed by: <br> ```LIST_MAX_NUM_NODES 500```
-- With these numbers, max is 100 processors with 400 messages
-
 ## Commands
 Enter the character to execute the command. 
 If there is a parameter, input the parameter after the entering the command. 
@@ -85,3 +88,16 @@ If there are multiple parameters, input each parameter one at a time.
 | :---- |:----------| :-----|
 | Procinfo (I) | Process ID | Display information of named process |
 | Totalinfo (T) | None | Display all process queues and their contents <br> Uninitalized Semaphore queues are not displayed|
+
+## Configuration
+The maximum amount of processes and messages can be managed in [list.h](/list.h)
+
+Maximum of processes is managed by (at least 10 is required): 
+```c
+LIST_MAX_NUM_HEADS 110
+```
+Maximum of messages and processes is managed by:
+```c
+LIST_MAX_NUM_NODES 500
+```
+With these numbers, max is 100 processors with 400 messages
