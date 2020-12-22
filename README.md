@@ -1,10 +1,10 @@
-# PCB's and Process Scheduling Simulation
+# Process Scheduling Simulation
 An interactive operating system simulating basic functions. The simulation recieves keyboard inputs and outputs reports to the screen.
 
 ## Installation
 1. Clone the repository
 ```bash
-git clone https://github.com/Toooo123/cmpt300A3.git
+git clone https://github.com/Toooo123/Process-Scheduling-Simulation.git
 ```
 2. Make the objects and executable file: 
 ```bash
