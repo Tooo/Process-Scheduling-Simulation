@@ -14,6 +14,41 @@ make
 ```bash
 main
 ```
+
+## Commands
+Enter the character to execute the command. 
+If there is a parameter, input the parameter after the entering the command. 
+If there are multiple parameters, input each parameter one at a time.
+
+### Process Commands
+| Command| Parameters | Action |
+| :---- |:----------| :-----|
+| Create (C) | Priority Number <br> (0 - high, 1 - norm, 2 - low) | Create a process and put in ready Queue |
+| Fork (F) | None | Copy running process and put in ready Queue |
+| Kill (K) | Process ID | Kill named process and remove from system |
+| Exit (E) | None | Kill running process and remove from system |
+| Quantum (Q) | None | Time quantum of running process expires|
+
+### Messaging Commands
+| Command| Parameters | Action |
+| :---- |:----------| :-----|
+| Send (S) | Process ID <br> Message (max 40 char)| Send message to another process, block until reply |
+| Receive (R) | None | Recieve message, block if no message waiting |
+| Reply (Y) | Process ID <br> Message (max 40 char) | Unblock sender and reply message |
+
+### Semaphore Commands
+| Command| Parameters | Action |
+| :---- |:----------| :-----|
+| New Semaphore (N) | Semaphore ID (0-4) <br> Initial Value (=>0) | Initialize semaphore with value given |
+| Semaphore P (P) | Semaphore ID (0-4) | Execute semaphore P on running process |
+| Semaphore V (V) | Semaphore ID (0-4) | Execute semaphore V on running process |
+
+### Info Commands
+| Command| Parameters | Action |
+| :---- |:----------| :-----|
+| Procinfo (I) | Process ID | Display information of named process |
+| Totalinfo (T) | None | Display all process queues and their contents <br> Uninitalized Semaphore queues are not displayed|
+
 ## Simulation Information
 ### Process 
 #### Process 0 (init)
@@ -52,40 +87,6 @@ Each Semaphore can only be created once.
 If the same semaphore is created more than twice, the command will fail.
 Semaphore P will block current process, if the semaphore value is less than 0.
 Semaphore V will unblock a blocked process, if the semaphore value is less or equal to 0.
-
-## Commands
-Enter the character to execute the command. 
-If there is a parameter, input the parameter after the entering the command. 
-If there are multiple parameters, input each parameter one at a time.
-
-### Process Commands
-| Command| Parameters | Action |
-| :---- |:----------| :-----|
-| Create (C) | Priority Number <br> (0 - high, 1 - norm, 2 - low) | Create a process and put in ready Queue |
-| Fork (F) | None | Copy running process and put in ready Queue |
-| Kill (K) | Process ID | Kill named process and remove from system |
-| Exit (E) | None | Kill running process and remove from system |
-| Quantum (Q) | None | Time quantum of running process expires|
-
-### Messaging Commands
-| Command| Parameters | Action |
-| :---- |:----------| :-----|
-| Send (S) | Process ID <br> Message (max 40 char)| Send message to another process, block until reply |
-| Receive (R) | None | Recieve message, block if no message waiting |
-| Reply (Y) | Process ID <br> Message (max 40 char) | Unblock sender and reply message |
-
-### Semaphore Commands
-| Command| Parameters | Action |
-| :---- |:----------| :-----|
-| New Semaphore (N) | Semaphore ID (0-4) <br> Initial Value (=>0) | Initialize semaphore with value given |
-| Semaphore P (P) | Semaphore ID (0-4) | Execute semaphore P on running process |
-| Semaphore V (V) | Semaphore ID (0-4) | Execute semaphore V on running process |
-
-### Info Commands
-| Command| Parameters | Action |
-| :---- |:----------| :-----|
-| Procinfo (I) | Process ID | Display information of named process |
-| Totalinfo (T) | None | Display all process queues and their contents <br> Uninitalized Semaphore queues are not displayed|
 
 ## Configuration
 The maximum amount of processes and messages can be managed in [list.h](/list.h)
