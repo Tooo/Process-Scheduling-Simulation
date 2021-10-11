@@ -4,7 +4,7 @@ An interactive operating system simulating basic functions. The simulation recie
 ## Installation
 1. Clone the repository
 ```bash
-git clone https://github.com/Toooo123/Process-Scheduling-Simulation.git
+git clone https://github.com/Tooo/Process-Scheduling-Simulation.git
 ```
 2. Make the objects and executable file: 
 ```bash
